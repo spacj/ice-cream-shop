@@ -1,78 +1,147 @@
-// Firebase Firestore Security Rules
-// Copy this to: Firebase Console > Firestore Database > Rules
-
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    
-    // Helper function to check if user is admin
-    function isAdmin() {
-      return exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    function isAuth() { return request.auth != null; }
+    function userDoc() { return get(/databases/$(database)/documents/users/$(request.auth.uid)).data; }
+    function isAdmin() { return isAuth() && userDoc().role == 'admin'; }
+    function isManager() { return isAuth() && (userDoc().role == 'admin' || userDoc().role == 'manager'); }
+    function isWebmaster() { return isAuth() && userDoc().role == 'webmaster'; }
+
+    // Users: anyone can read, only self or admin can write
+    match /users/{uid} {
+      allow read: if isAuth();
+      allow create: if isAuth() && request.auth.uid == uid;
+      allow update: if isAuth() && (request.auth.uid == uid || isAdmin());
+      allow delete: if isAuth() && request.auth.uid == uid;
     }
-    
-    // Helper function to check if user is authenticated
-    function isAuthenticated() {
-      return request.auth != null;
+
+    // Organizations: all authenticated can read, managers can update, owner can delete
+    match /organizations/{orgId} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+      allow update: if isManager();
+      allow delete: if isAuth() && resource.data.ownerId == request.auth.uid;
     }
-    
-    // === ARTICLES COLLECTION ===
-    // Articles are public to read, only admins can write
-    match /articles/{articleId} {
-      // Anyone can read published articles
-      allow read: if resource.data.published == true;
-      
-      // Admins can read all articles (draft + published)
-      allow read: if isAuthenticated() && isAdmin();
-      
-      // Only admins can create, update, delete
-      allow create: if isAuthenticated() && isAdmin();
-      allow update: if isAuthenticated() && isAdmin();
-      allow delete: if isAuthenticated() && isAdmin();
+
+    // Config (PayPal plan IDs etc): admins write, all auth read
+    match /config/{docId} {
+      allow read: if isAuth();
+      allow write: if isAdmin();
     }
-    
-    // === INQUIRIES COLLECTION ===
-    // Public can create (submit form), only admins can read/manage
-    match /inquiries/{inquiryId} {
-      // Anyone can create (submit inquiry)
-      allow create: if true;
-      
-      // Only admins can read
-      allow read: if isAuthenticated() && isAdmin();
-      
-      // Only admins can update (change status)
-      allow update: if isAuthenticated() && isAdmin();
-      
-      // Only admins can delete
-      allow delete: if isAuthenticated() && isAdmin();
+
+    // Invites: public read (unauthenticated /join page needs to verify codes)
+    match /invites/{id} {
+      allow read: if true;
+      allow create: if isManager();
+      allow update: if isAuth();
+      allow delete: if isAdmin();
     }
-    
-    // === APPLICATIONS COLLECTION ===
-    // Public can create (submit form), only admins can read/manage
-    match /applications/{applicationId} {
-      // Anyone can create (submit application)
-      allow create: if true;
-      
-      // Only admins can read
-      allow read: if isAuthenticated() && isAdmin();
-      
-      // Only admins can update (change status)
-      allow update: if isAuthenticated() && isAdmin();
-      
-      // Only admins can delete
-      allow delete: if isAuthenticated() && isAdmin();
+
+    // Workers: all auth read, managers+ write
+    match /workers/{id} {
+      allow read: if isAuth();
+      allow create: if isManager();
+      allow update: if isAuth();
+      allow delete: if isAdmin();
     }
-    
-    // === ADMINS COLLECTION ===
-    // Admins can read their own document
-    match /admins/{adminId} {
-      allow read: if isAuthenticated() && request.auth.uid == adminId;
-      allow write: if false; // Manage via Firebase Console
+
+    // Shops: all auth read, managers+ write
+    match /shops/{id} {
+      allow read: if isAuth();
+      allow create: if isManager();
+      allow update: if isManager();
+      allow delete: if isAdmin();
     }
-    
-    // === DEFAULT DENY ===
-    // Deny all other access
-    match /{document=**} {
-      allow read, write: if false;
+
+    // Shift Templates: all auth read, managers+ write
+    match /shiftTemplates/{id} {
+      allow read: if isAuth();
+      allow create: if isManager();
+      allow update: if isManager();
+      allow delete: if isManager();
+    }
+
+    // Shifts: all auth read, managers+ write
+    match /shifts/{id} {
+      allow read: if isAuth();
+      allow create: if isManager();
+      allow update: if isManager();
+      allow delete: if isManager();
+    }
+
+    // Shift Preferences: all auth read/write (workers set their own)
+    match /shiftPreferences/{id} {
+      allow read, write: if isAuth();
+    }
+
+    // Attendance: all auth read/create/update (workers clock in/out)
+    match /attendance/{id} {
+      allow read, create, update: if isAuth();
+    }
+
+    // Permits: all auth read/create (workers request), managers approve/deny/delete
+    match /permits/{id} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+      allow update: if isAuth();
+      allow delete: if isManager();
+    }
+
+    // Payments: all auth read, managers/admins create, admin update (webhooks use admin SDK which bypasses rules)
+    match /payments/{id} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+      allow update: if isAdmin();
+    }
+
+    // Notifications: all auth read/update own, managers create
+    match /notifications/{id} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+      allow update: if isAuth();
+    }
+
+    // Activity Log: all auth read/create
+    match /activityLog/{id} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+    }
+
+    // Referrals: all auth read, auth create
+    match /referrals/{id} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+    }
+
+    // Correction Requests: all auth read/create (workers submit), managers update (approve/reject)
+    match /correctionRequests/{id} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+      allow update: if isManager();
+    }
+
+    // Messages: all auth read/create (workers send, managers reply), auth update (mark read)
+    match /messages/{id} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+      allow update: if isAuth();
+    }
+
+    // Webmaster Referral Codes: auth read/write (access enforced in app via isWebmaster)
+    match /webmasterReferralCodes/{id} {
+      allow read, create, update, delete: if isAuth();
+    }
+
+    // Webmaster Earnings: auth read/write (access enforced in app via isWebmaster)
+    match /webmasterEarnings/{id} {
+      allow read, create, update, delete: if isAuth();
+    }
+
+    // Support Tickets: public create (contact form), auth read/write
+    match /supportTickets/{id} {
+      allow read: if isAuth();
+      allow create: if true;  // Public contact form (no auth required)
+      allow update: if isAuth();
     }
   }
 }
