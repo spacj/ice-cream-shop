@@ -30,15 +30,15 @@ export default function Contact() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cream via-white to-red-50 pt-32">
+    <div className="min-h-screen bg-gradient-to-b from-cream via-white to-pistach-50 pt-32">
       {/* Hero */}
       <section className="py-20 px-4 mb-20">
         <div className="max-w-4xl mx-auto">
           <FadeInOnScroll>
-            <h1 className="font-display text-6xl md:text-7xl text-red-600 text-center mb-6">
+            <h1 className="font-serif text-6xl md:text-7xl text-pistach-600 text-center mb-6">
               Get in Touch
             </h1>
-            <p className="text-xl text-taupe text-center max-w-2xl mx-auto">
+            <p className="text-xl text-grey-dark text-center max-w-2xl mx-auto">
               Have questions about our pistachio gelato? We'd love to hear from you!
             </p>
           </FadeInOnScroll>
@@ -52,8 +52,8 @@ export default function Contact() {
       <section className="py-20 px-4">
         <div className="max-w-2xl mx-auto">
           <FadeInOnScroll>
-            <div className="glass rounded-3xl p-12 border border-red-200">
-              <h2 className="font-display text-4xl text-red-600 mb-8">Send us a Message</h2>
+            <div className="glass rounded-3xl p-12 border border-beige">
+              <h2 className="font-serif text-4xl text-pistach-600 mb-8">Send us a Message</h2>
               
               {submitStatus === 'success' && (
                 <motion.div
@@ -82,13 +82,13 @@ export default function Contact() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                 >
-                  <label className="block text-sm font-semibold text-dark mb-2">Name</label>
-                  <input
-                    {...register('name', { required: 'Name is required' })}
-                    placeholder="Your name"
-                    className="w-full px-4 py-3 rounded-lg border border-red-200 bg-white text-dark placeholder-gray-400 focus:outline-none focus:border-red-600 transition-colors"
-                  />
-                  {errors.name && <p className="text-red-600 text-sm mt-1">{errors.name.message}</p>}
+                  <label className="block text-sm font-semibold text-charcoal mb-2">Name</label>
+                   <input
+                     {...register('name', { required: 'Name is required' })}
+                     placeholder="Your name"
+                     className="w-full px-4 py-3 rounded-lg border border-beige bg-white text-charcoal placeholder-grey-light focus:outline-none focus:border-pistach-600 transition-colors"
+                   />
+                   {errors.name && <p className="text-pistach-600 text-sm mt-1">{errors.name.message}</p>}
                 </motion.div>
 
                 {/* Email */}
@@ -98,14 +98,14 @@ export default function Contact() {
                   transition={{ delay: 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <label className="block text-sm font-semibold text-dark mb-2">Email</label>
-                  <input
-                    {...register('email', { required: 'Email is required', pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ })}
-                    type="email"
-                    placeholder="your@email.com"
-                    className="w-full px-4 py-3 rounded-lg border border-red-200 bg-white text-dark placeholder-gray-400 focus:outline-none focus:border-red-600 transition-colors"
-                  />
-                  {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email.message}</p>}
+                  <label className="block text-sm font-semibold text-charcoal mb-2">Email</label>
+                   <input
+                     {...register('email', { required: 'Email is required', pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ })}
+                     type="email"
+                     placeholder="your@email.com"
+                     className="w-full px-4 py-3 rounded-lg border border-beige bg-white text-charcoal placeholder-grey-light focus:outline-none focus:border-pistach-600 transition-colors"
+                   />
+                   {errors.email && <p className="text-pistach-600 text-sm mt-1">{errors.email.message}</p>}
                 </motion.div>
 
                 {/* Subject */}
@@ -115,13 +115,13 @@ export default function Contact() {
                   transition={{ delay: 0.2 }}
                   viewport={{ once: true }}
                 >
-                  <label className="block text-sm font-semibold text-dark mb-2">Subject</label>
-                  <input
-                    {...register('subject', { required: 'Subject is required' })}
-                    placeholder="What's this about?"
-                    className="w-full px-4 py-3 rounded-lg border border-red-200 bg-white text-dark placeholder-gray-400 focus:outline-none focus:border-red-600 transition-colors"
-                  />
-                  {errors.subject && <p className="text-red-600 text-sm mt-1">{errors.subject.message}</p>}
+                  <label className="block text-sm font-semibold text-charcoal mb-2">Subject</label>
+                   <input
+                     {...register('subject', { required: 'Subject is required' })}
+                     placeholder="What's this about?"
+                     className="w-full px-4 py-3 rounded-lg border border-beige bg-white text-charcoal placeholder-grey-light focus:outline-none focus:border-pistach-600 transition-colors"
+                   />
+                   {errors.subject && <p className="text-pistach-600 text-sm mt-1">{errors.subject.message}</p>}
                 </motion.div>
 
                 {/* Message */}
@@ -131,30 +131,30 @@ export default function Contact() {
                   transition={{ delay: 0.3 }}
                   viewport={{ once: true }}
                 >
-                  <label className="block text-sm font-semibold text-dark mb-2">Message</label>
-                  <textarea
-                    {...register('message', { required: 'Message is required' })}
-                    rows={6}
-                    placeholder="Tell us more..."
-                    className="w-full px-4 py-3 rounded-lg border border-red-200 bg-white text-dark placeholder-gray-400 focus:outline-none focus:border-red-600 transition-colors"
-                  />
-                  {errors.message && <p className="text-red-600 text-sm mt-1">{errors.message.message}</p>}
+                  <label className="block text-sm font-semibold text-charcoal mb-2">Message</label>
+                   <textarea
+                     {...register('message', { required: 'Message is required' })}
+                     rows={6}
+                     placeholder="Tell us more..."
+                     className="w-full px-4 py-3 rounded-lg border border-beige bg-white text-charcoal placeholder-grey-light focus:outline-none focus:border-pistach-600 transition-colors"
+                   />
+                   {errors.message && <p className="text-pistach-600 text-sm mt-1">{errors.message.message}</p>}
                 </motion.div>
 
                 {/* Submit Button */}
                 <motion.button
-                  type="submit"
-                  disabled={isSubmitting}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-full px-8 py-4 bg-gradient-red text-white rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-shadow disabled:opacity-50"
-                >
-                  {isSubmitting ? 'Sending...' : 'Send Message'}
-                </motion.button>
+                   type="submit"
+                   disabled={isSubmitting}
+                   initial={{ opacity: 0, y: 20 }}
+                   whileInView={{ opacity: 1, y: 0 }}
+                   transition={{ delay: 0.4 }}
+                   viewport={{ once: true }}
+                   whileHover={{ scale: 1.05 }}
+                   whileTap={{ scale: 0.95 }}
+                   className="w-full px-8 py-4 bg-pistach-600 text-white rounded-lg font-semibold text-lg shadow-lg hover:bg-pistach-700 hover:shadow-xl transition-all disabled:opacity-50"
+                 >
+                   {isSubmitting ? 'Sending...' : 'Send Message'}
+                 </motion.button>
               </form>
             </div>
           </FadeInOnScroll>
@@ -168,11 +168,11 @@ export default function Contact() {
       />
 
       {/* Follow Us Section */}
-      <section className="py-20 px-4 bg-red-50">
+      <section className="py-20 px-4 bg-pistach-50">
         <div className="max-w-4xl mx-auto text-center">
           <FadeInOnScroll>
-            <h2 className="font-display text-4xl text-red-600 mb-8">Follow Our Journey</h2>
-            <p className="text-lg text-taupe mb-12">Connect with us on social media for daily updates and exclusive content</p>
+            <h2 className="font-serif text-4xl text-pistach-600 mb-8">Follow Our Journey</h2>
+            <p className="text-lg text-grey-dark mb-12">Connect with us on social media for daily updates and exclusive content</p>
             
             <div className="flex justify-center gap-6">
               {[
