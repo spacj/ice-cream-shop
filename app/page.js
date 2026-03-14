@@ -4,6 +4,23 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { FadeInOnScroll } from '@/lib/scroll-animations';
+import { PremiumImage, VideoBackground, ImageGallery, ImageCarousel, VideoPlayer } from '@/lib/media-components';
+
+// Sample image data - replace with real images
+const sampleImages = [
+  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=800&fit=crop', alt: 'Pistachio gelato scoop', caption: 'Pistacchio Classico' },
+  { src: 'https://images.unsplash.com/photo-1545521521-83bd8e6b45ae?w=800&h=800&fit=crop', alt: 'Gelato display', caption: 'Our gelato bar' },
+  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=800&fit=crop', alt: 'Creamy texture', caption: 'Premium gelato' },
+  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=800&fit=crop', alt: 'Flavors', caption: 'Signature flavors' },
+  { src: 'https://images.unsplash.com/photo-1545521521-83bd8e6b45ae?w=800&h=800&fit=crop', alt: 'Shop ambiance', caption: 'Shop interior' },
+  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=800&fit=crop', alt: 'Gelato making', caption: 'Handcrafted' },
+];
+
+const carouselImages = [
+  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=1200&h=600&fit=crop', alt: 'Featured flavor 1' },
+  { src: 'https://images.unsplash.com/photo-1545521521-83bd8e6b45ae?w=1200&h=600&fit=crop', alt: 'Featured flavor 2' },
+  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=1200&h=600&fit=crop', alt: 'Featured flavor 3' },
+];
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -14,81 +31,100 @@ export default function Home() {
 
   return (
     <div className="overflow-hidden bg-cream">
-      {/* HERO - PRODUCT SHOWCASE */}
+      {/* ===== HERO WITH VIDEO BACKGROUND ===== */}
       <section className="relative w-full min-h-screen flex items-stretch pt-32">
-        {/* Image Background - takes 60% of space */}
-        <div className="absolute inset-0 top-32">
-          <div className="w-full h-full bg-gradient-to-br from-ivory via-off-white to-vanilla flex items-center justify-center">
-            {/* Placeholder for premium product photography */}
-            <div className="w-full h-full flex flex-col items-center justify-center p-12 text-center">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={isLoaded ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.8 }}
-                className="text-center"
-              >
-                <p className="text-grey-light text-sm tracking-widest uppercase mb-6">
-                  Artisanal Gelato Crafted Daily
-                </p>
-                <h1 className="text-6xl md:text-7xl lg:text-8xl font-serif font-bold text-charcoal mb-6 leading-tight">
-                  Pistacchio
-                </h1>
-                <p className="text-2xl md:text-3xl text-pistach-500 font-light mb-8">
-                  Premium Sicilian Gelato in Utrecht
-                </p>
-                <div className="w-32 h-32 md:w-48 md:h-48 mx-auto bg-gradient-to-br from-pistach-400 to-caramel rounded-full shadow-2xl flex items-center justify-center my-12">
-                  <span className="text-7xl md:text-9xl">🌿</span>
-                </div>
-                <p className="text-grey-dark text-lg max-w-2xl mx-auto leading-relaxed">
-                  Hand-crafted daily from the finest Sicilian pistachio, sustainably sourced and prepared with uncompromising attention to quality.
-                </p>
-              </motion.div>
-            </div>
-          </div>
+        {/* Video Background */}
+        <div className="absolute inset-0 top-32 w-full h-full">
+          <VideoBackground 
+            src="/videos/hero-gelato.mp4"
+            poster="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=1600&h=1200&fit=crop"
+            className="w-full h-full"
+          />
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-cream/80 to-cream/20"></div>
         </div>
 
-        {/* Content Overlay - positioned on right */}
-        <div className="relative z-10 w-full lg:w-1/2 ml-auto flex items-center"></div>
+        {/* Content */}
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-6 py-20 flex items-center">
+          <div className="max-w-2xl">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8 }}
+            >
+              <p className="text-pistach-500 text-sm tracking-widest uppercase mb-4 font-semibold">
+                Artisanal Gelato Crafted Daily
+              </p>
+              <h1 className="text-6xl md:text-7xl lg:text-8xl font-serif font-bold text-charcoal mb-6 leading-tight">
+                Pistacchio
+              </h1>
+              <p className="text-2xl md:text-3xl text-pistach-500 font-light mb-8">
+                Premium Sicilian Gelato in Utrecht
+              </p>
+              <p className="text-lg text-grey-dark max-w-xl leading-relaxed mb-8">
+                Hand-crafted daily from the finest Sicilian pistachio, sustainably sourced and prepared with uncompromising attention to quality.
+              </p>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                className="px-8 py-4 bg-pistach-500 text-white rounded-lg font-semibold hover:bg-pistach-600 transition-colors"
+              >
+                <Link href="#flavors">Explore Our Gelato</Link>
+              </motion.button>
+            </motion.div>
+          </div>
+        </div>
       </section>
 
-      {/* FEATURED FLAVORS - LARGE SHOWCASES */}
-      <section className="py-32 px-4 bg-white">
+      {/* ===== FEATURED CAROUSEL ===== */}
+      <section className="py-20 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-20"
-          >
-            <p className="text-pistach-500 text-sm tracking-widest uppercase mb-4">
-              Our Signature Collection
-            </p>
-            <h2 className="text-5xl md:text-6xl font-serif font-bold text-charcoal">
-              Handcrafted Flavors
-            </h2>
-            <div className="w-20 h-1 bg-caramel mx-auto mt-6"></div>
-          </motion.div>
+          <FadeInOnScroll>
+            <div className="text-center mb-12">
+              <p className="text-pistach-500 text-sm tracking-widest uppercase mb-4 font-semibold">
+                Visual Journey
+              </p>
+              <h2 className="text-5xl md:text-6xl font-serif font-bold text-charcoal mb-6">
+                Featured Moments
+              </h2>
+              <div className="w-20 h-1 bg-caramel mx-auto"></div>
+            </div>
+          </FadeInOnScroll>
 
-          {/* 3-Column Product Grid */}
+          <ImageCarousel images={carouselImages} />
+        </div>
+      </section>
+
+      {/* ===== FEATURED FLAVORS WITH IMAGES ===== */}
+      <section id="flavors" className="py-32 px-4 bg-gradient-to-b from-ivory to-white">
+        <div className="max-w-7xl mx-auto">
+          <FadeInOnScroll>
+            <div className="text-center mb-20">
+              <p className="text-pistach-500 text-sm tracking-widest uppercase mb-4 font-semibold">
+                Our Signature Collection
+              </p>
+              <h2 className="text-5xl md:text-6xl font-serif font-bold text-charcoal mb-6">
+                Handcrafted Flavors
+              </h2>
+              <div className="w-20 h-1 bg-caramel mx-auto"></div>
+            </div>
+          </FadeInOnScroll>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {[
               {
                 name: 'Pistacchio Classico',
-                description: 'Pure essence of Sicilian pistachio',
-                image: '🌿',
-                color: 'from-pistach-100 to-pistach-50'
+                description: 'Pure essence of Sicilian pistachio, no additives',
+                image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&h=600&fit=crop'
               },
               {
                 name: 'Pistacchio & Nocciola',
-                description: 'Pistachio with Italian hazelnut',
-                image: '🤎',
-                color: 'from-gold-light to-vanilla'
+                description: 'Pistachio blended with premium Italian hazelnut',
+                image: 'https://images.unsplash.com/photo-1545521521-83bd8e6b45ae?w=600&h=600&fit=crop'
               },
               {
                 name: 'Pistacchio & Cioccolato',
-                description: 'Rich pistachio with dark chocolate',
-                image: '💚',
-                color: 'from-pistach-200 to-charcoal/10'
+                description: 'Rich pistachio with dark Belgian chocolate',
+                image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&h=600&fit=crop'
               }
             ].map((flavor, idx) => (
               <motion.div
@@ -97,14 +133,17 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
                 viewport={{ once: true }}
-                className="group cursor-pointer"
               >
-                {/* Large Image Box */}
-                <div className={`bg-gradient-to-br ${flavor.color} rounded-none aspect-square flex items-center justify-center text-9xl mb-8 overflow-hidden transition-transform duration-500 group-hover:scale-105`}>
-                  {flavor.image}
+                {/* Image */}
+                <div className="rounded-lg aspect-square overflow-hidden mb-8 shadow-lg group cursor-pointer">
+                  <PremiumImage 
+                    src={flavor.image}
+                    alt={flavor.name}
+                    className="w-full h-full group-hover:scale-110 transition-transform duration-500"
+                  />
                 </div>
                 
-                {/* Product Info */}
+                {/* Info */}
                 <h3 className="text-2xl font-serif font-bold text-charcoal mb-3">
                   {flavor.name}
                 </h3>
@@ -123,20 +162,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* THE CRAFT - OUR STORY */}
+      {/* ===== THE CRAFT WITH VIDEO ===== */}
       <section className="py-32 px-4 bg-pistach-50">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Left - Large Image */}
+            {/* Left - Video */}
             <motion.div
               initial={{ opacity: 0, x: -60 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               className="order-2 lg:order-1"
             >
-              <div className="bg-gradient-to-br from-caramel to-gold-dark rounded-lg aspect-square flex items-center justify-center text-9xl shadow-lg">
-                👨‍🍳
-              </div>
+              <VideoPlayer
+                src="/videos/gelato-making.mp4"
+                poster="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=600&fit=crop"
+                title="Our Gelato Making Process"
+              />
             </motion.div>
 
             {/* Right - Text */}
@@ -146,7 +187,7 @@ export default function Home() {
               viewport={{ once: true }}
               className="order-1 lg:order-2"
             >
-              <p className="text-pistach-500 text-sm tracking-widest uppercase mb-4">
+              <p className="text-pistach-500 text-sm tracking-widest uppercase mb-4 font-semibold">
                 Craftsmanship
               </p>
               <h2 className="text-5xl font-serif font-bold text-charcoal mb-8">
@@ -186,23 +227,39 @@ export default function Home() {
         </div>
       </section>
 
-      {/* QUALITY STANDARDS */}
+      {/* ===== IMAGE GALLERY ===== */}
       <section className="py-32 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-20"
-          >
-            <p className="text-pistach-500 text-sm tracking-widest uppercase mb-4">
-              Quality Commitment
-            </p>
-            <h2 className="text-5xl md:text-6xl font-serif font-bold text-charcoal">
-              The Pistacchio Difference
-            </h2>
-            <div className="w-20 h-1 bg-caramel mx-auto mt-6"></div>
-          </motion.div>
+          <FadeInOnScroll>
+            <div className="text-center mb-16">
+              <p className="text-pistach-500 text-sm tracking-widest uppercase mb-4 font-semibold">
+                Gallery
+              </p>
+              <h2 className="text-5xl md:text-6xl font-serif font-bold text-charcoal mb-6">
+                Moments at Pistacchio
+              </h2>
+              <div className="w-20 h-1 bg-caramel mx-auto"></div>
+            </div>
+          </FadeInOnScroll>
+
+          <ImageGallery images={sampleImages} columns={3} />
+        </div>
+      </section>
+
+      {/* ===== QUALITY STANDARDS ===== */}
+      <section className="py-32 px-4 bg-gradient-to-b from-cream to-ivory">
+        <div className="max-w-7xl mx-auto">
+          <FadeInOnScroll>
+            <div className="text-center mb-20">
+              <p className="text-pistach-500 text-sm tracking-widest uppercase mb-4 font-semibold">
+                Quality Commitment
+              </p>
+              <h2 className="text-5xl md:text-6xl font-serif font-bold text-charcoal mb-6">
+                The Pistacchio Difference
+              </h2>
+              <div className="w-20 h-1 bg-caramel mx-auto"></div>
+            </div>
+          </FadeInOnScroll>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
@@ -228,30 +285,27 @@ export default function Home() {
         </div>
       </section>
 
-      {/* REVIEWS & SOCIAL PROOF */}
-      <section className="py-32 px-4 bg-pistach-50">
+      {/* ===== REVIEWS ===== */}
+      <section className="py-32 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-20"
-          >
-            <p className="text-pistach-500 text-sm tracking-widest uppercase mb-4">
-              Loved by Gelato Enthusiasts
-            </p>
-            <h2 className="text-5xl md:text-6xl font-serif font-bold text-charcoal">
-              What Our Guests Say
-            </h2>
-            <div className="w-20 h-1 bg-caramel mx-auto mt-6"></div>
-          </motion.div>
+          <FadeInOnScroll>
+            <div className="text-center mb-16">
+              <p className="text-pistach-500 text-sm tracking-widest uppercase mb-4 font-semibold">
+                Loved by Gelato Enthusiasts
+              </p>
+              <h2 className="text-5xl md:text-6xl font-serif font-bold text-charcoal mb-6">
+                What Our Guests Say
+              </h2>
+              <div className="w-20 h-1 bg-caramel mx-auto"></div>
+            </div>
+          </FadeInOnScroll>
 
           {/* Google Rating */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="text-center mb-16 py-12 bg-white rounded-lg"
+            className="text-center mb-16 py-12 bg-gradient-to-br from-pistach-50 to-ivory rounded-lg"
           >
             <div className="flex justify-center gap-1 mb-6">
               {[...Array(5)].map((_, i) => (
@@ -282,7 +336,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-white p-8 rounded-lg"
+                className="bg-gradient-to-br from-pistach-50 to-ivory p-8 rounded-lg border border-beige"
               >
                 <div className="flex gap-1 mb-4">
                   {[...Array(5)].map((_, i) => (
@@ -297,17 +351,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* LOCATION - VISIT US */}
-      <section className="py-32 px-4 bg-white">
+      {/* ===== LOCATION ===== */}
+      <section className="py-32 px-4 bg-gradient-to-b from-cream to-white">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Left - Info */}
+            {/* Info */}
             <motion.div
               initial={{ opacity: 0, x: -60 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <p className="text-pistach-500 text-sm tracking-widest uppercase mb-4">
+              <p className="text-pistach-500 text-sm tracking-widest uppercase mb-4 font-semibold">
                 Visit Us
               </p>
               <h2 className="text-5xl font-serif font-bold text-charcoal mb-8">
@@ -331,9 +385,9 @@ export default function Home() {
                     Hours
                   </h3>
                   <p className="text-grey-dark">
-                    Monday - Thursday: 12:00 - 22:00<br/>
-                    Friday - Saturday: 11:00 - 23:00<br/>
-                    Sunday: 12:00 - 21:00
+                    Mon - Thu: 12:00 - 22:00<br/>
+                    Fri - Sat: 11:00 - 23:00<br/>
+                    Sun: 12:00 - 21:00
                   </p>
                 </div>
 
@@ -352,7 +406,7 @@ export default function Home() {
                 </div>
 
                 <motion.a
-                  href="https://www.google.com/maps/search/Pistacchio+Utrecht"
+                  href="https://www.google.com/maps/search/Korte+Jansstraat+23+Utrecht"
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.05 }}
@@ -363,23 +417,24 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Right - Map Placeholder */}
+            {/* Image */}
             <motion.div
               initial={{ opacity: 0, x: 60 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="bg-gradient-to-br from-pistach-100 to-ivory rounded-lg aspect-square flex items-center justify-center"
+              className="rounded-lg overflow-hidden shadow-xl"
             >
-              <div className="text-center">
-                <div className="text-8xl mb-4">📍</div>
-                <p className="text-xl font-semibold text-charcoal">Utrecht, Netherlands</p>
-              </div>
+              <PremiumImage
+                src="https://images.unsplash.com/photo-1567521464027-f127ff144326?w=800&h=800&fit=crop"
+                alt="Pistacchio Utrecht shop"
+                className="w-full aspect-square"
+              />
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* CTA - VISIT TODAY */}
+      {/* ===== CTA ===== */}
       <section className="py-20 px-4 bg-gradient-to-r from-pistach-600 to-pistach-700">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
