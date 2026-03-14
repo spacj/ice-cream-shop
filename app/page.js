@@ -2,8 +2,8 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import Logo from '@/components/Logo';
 import { useState, useEffect } from 'react';
+import { FadeInOnScroll, SlideInOnScroll, ParallaxSection, StaggerContainer } from '@/lib/scroll-animations';
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -29,172 +29,277 @@ export default function Home() {
   };
 
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden bg-gradient-to-b from-pistachio-50 via-cream to-vanilla">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center pt-20 pb-20">
-        {/* Animated background */}
+        {/* Animated background - Italian inspired */}
         <div className="absolute inset-0 overflow-hidden">
           <motion.div
-            className="absolute top-20 right-10 w-96 h-96 bg-ice-pink rounded-full mix-blend-multiply filter blur-3xl opacity-20"
+            className="absolute top-20 right-10 w-96 h-96 bg-pistachio-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30"
             animate={{ y: [0, 100, 0], x: [0, 50, 0] }}
             transition={{ duration: 8, repeat: Infinity }}
           />
           <motion.div
-            className="absolute bottom-20 left-10 w-96 h-96 bg-ice-blue rounded-full mix-blend-multiply filter blur-3xl opacity-20"
+            className="absolute bottom-20 left-10 w-96 h-96 bg-mediterranean rounded-full mix-blend-multiply filter blur-3xl opacity-30"
             animate={{ y: [0, -100, 0], x: [0, -50, 0] }}
             transition={{ duration: 10, repeat: Infinity }}
+          />
+          <motion.div
+            className="absolute top-1/2 left-1/3 w-80 h-80 bg-gold rounded-full mix-blend-multiply filter blur-3xl opacity-20"
+            animate={{ y: [0, 50, 0], x: [0, -50, 0] }}
+            transition={{ duration: 12, repeat: Infinity, delay: 2 }}
           />
         </div>
 
         {/* Content */}
         <motion.div
-          className="relative z-10 max-w-5xl mx-auto px-4 text-center"
+          className="relative z-10 max-w-4xl mx-auto px-4 text-center"
+          variants={containerVariants}
           initial="hidden"
           animate={isLoaded ? 'visible' : 'hidden'}
-          variants={containerVariants}
         >
           {/* Logo */}
           <motion.div
-            className="flex justify-center mb-8"
             variants={itemVariants}
+            className="mb-8 flex justify-center"
           >
-            <Logo size={120} />
+            <motion.div
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ duration: 3, repeat: Infinity }}
+            >
+              <div className="w-32 h-32 rounded-full bg-gradient-primary flex items-center justify-center shadow-lg">
+                <span className="text-6xl">🌿</span>
+              </div>
+            </motion.div>
           </motion.div>
 
           {/* Heading */}
           <motion.h1
-            className="font-display text-6xl md:text-8xl mb-6 text-gradient"
+            className="font-display text-6xl md:text-8xl mb-6 text-gradient-italian"
             variants={itemVariants}
           >
-            Gelato Luxe
+            Pistacchio
           </motion.h1>
 
           {/* Subheading */}
           <motion.p
-            className="text-xl md:text-3xl text-gray-300 mb-8 font-light"
+            className="text-xl md:text-3xl text-pistachio-700 mb-8 font-light italic"
             variants={itemVariants}
           >
-            Where Craftsmanship Meets Indulgence
+            Genuino Italiano
           </motion.p>
 
           {/* Description */}
           <motion.p
-            className="text-lg text-gray-400 max-w-2xl mx-auto mb-12"
+            className="text-lg text-taupe max-w-2xl mx-auto mb-12 leading-relaxed"
             variants={itemVariants}
           >
-            Experience premium ice cream crafted with the finest ingredients and stunning visual design. Each scoop tells a story of perfection.
+            Experience the authentic taste of Sicily with our handcrafted pistachio gelato. Every scoop is a celebration of Italian tradition, crafted with love and the finest pistachio from the heart of Italy.
           </motion.p>
 
           {/* CTA Buttons */}
           <motion.div
-            className="flex flex-col md:flex-row gap-4 justify-center"
+            className="flex flex-col md:flex-row gap-4 justify-center mb-16"
             variants={itemVariants}
           >
-            <Link
-              href="/products"
-              className="px-8 py-4 rounded-full gradient-primary text-white font-semibold text-lg hover-lift"
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 rounded-full bg-gradient-primary text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-shadow"
             >
-              Explore Flavors
-            </Link>
-            <Link
-              href="/contact"
-              className="px-8 py-4 rounded-full border-2 border-ice-blue text-ice-blue font-semibold text-lg hover-lift hover:bg-ice-blue hover:text-dark transition-smooth"
+              <Link href="/products">Discover Flavors</Link>
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 rounded-full border-2 border-pistachio-600 text-pistachio-600 font-semibold text-lg hover:bg-pistachio-50 transition-colors"
             >
-              Get in Touch
-            </Link>
+              <Link href="/contact">Reserve Now</Link>
+            </motion.button>
+          </motion.div>
+
+          {/* Scroll indicator */}
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="text-center"
+          >
+            <p className="text-pistachio-600 text-sm font-medium mb-2">Scroll to explore</p>
+            <svg
+              className="w-6 h-6 mx-auto text-pistachio-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
           </motion.div>
         </motion.div>
       </section>
 
-      {/* Video Showcase Section */}
-      <section className="py-20 px-4 relative">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="mb-16 text-center"
-          >
-            <h2 className="font-display text-5xl md:text-6xl text-gradient-gold mb-4">
-              The Art of Perfection
-            </h2>
-            <p className="text-gray-400 text-lg">
-              Watch our meticulous craftsmanship in action
-            </p>
-          </motion.div>
-
-          {/* Video Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {[1, 2, 3, 4].map((item) => (
-              <motion.div
-                key={item}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: item * 0.1 }}
-                viewport={{ once: true }}
-                className="group relative overflow-hidden rounded-2xl"
-              >
-                <div className="aspect-video bg-gradient-to-br from-ice-pink/20 to-ice-blue/20 glass hover-lift">
-                  <div className="w-full h-full flex items-center justify-center">
-                    {/* Video placeholder with play button */}
-                    <motion.div
-                      whileHover={{ scale: 1.1 }}
-                      className="w-20 h-20 rounded-full gradient-primary flex items-center justify-center cursor-pointer"
-                    >
-                      <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-                      </svg>
-                    </motion.div>
+      {/* About Section with Parallax */}
+      <ParallaxSection offset={100}>
+        <section className="py-20 px-4 relative">
+          <div className="max-w-6xl mx-auto">
+            <FadeInOnScroll>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                {/* Left - Image/Icon */}
+                <motion.div
+                  initial={{ opacity: 0, x: -60 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8 }}
+                  viewport={{ once: true }}
+                  className="relative"
+                >
+                  <div className="w-full h-96 bg-gradient-to-br from-pistachio-200 to-pistachio-100 rounded-3xl flex items-center justify-center shadow-xl">
+                    <div className="text-center">
+                      <div className="text-8xl mb-4">🌰</div>
+                      <p className="text-2xl font-display text-pistachio-700">Sicilian Pistachio</p>
+                    </div>
                   </div>
-                </div>
-                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-dark to-transparent">
-                  <p className="text-white font-semibold">Premium Production #{item}</p>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+
+                {/* Right - Text */}
+                <motion.div
+                  initial={{ opacity: 0, x: 60 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8 }}
+                  viewport={{ once: true }}
+                >
+                  <h2 className="font-display text-5xl md:text-6xl text-pistachio-700 mb-6">
+                    A Taste of Italy
+                  </h2>
+                  <p className="text-lg text-taupe mb-6 leading-relaxed">
+                    Born from the volcanic soils of Sicily, our pistachio is nurtured by centuries of Italian tradition. Each nut is hand-selected and roasted to perfection, delivering the authentic flavor that made Pistacchio world-famous.
+                  </p>
+                  <ul className="space-y-3 mb-8">
+                    {['100% Sicilian Pistachio', 'Handcrafted Daily', 'No Artificial Colors', 'Sustainable Farming'].map((item) => (
+                      <motion.li
+                        key={item}
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        className="flex items-center gap-3 text-taupe"
+                      >
+                        <span className="text-pistachio-600 font-bold">✓</span>
+                        {item}
+                      </motion.li>
+                    ))}
+                  </ul>
+                </motion.div>
+              </div>
+            </FadeInOnScroll>
           </div>
+        </section>
+      </ParallaxSection>
+
+      {/* Flavors Showcase Section */}
+      <section className="py-20 px-4 bg-white/40">
+        <div className="max-w-6xl mx-auto">
+          <FadeInOnScroll>
+            <h2 className="font-display text-6xl text-pistachio-700 text-center mb-4">
+              Our Collection
+            </h2>
+            <p className="text-center text-taupe text-lg mb-16 max-w-2xl mx-auto">
+              Explore our signature pistachio creations, each inspired by Italian tradition
+            </p>
+          </FadeInOnScroll>
+
+          <StaggerContainer>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                {
+                  name: 'Pistacchio Classico',
+                  description: 'The pure essence of Sicilian pistachio',
+                  emoji: '💚',
+                  color: 'from-pistachio-200 to-pistachio-300'
+                },
+                {
+                  name: 'Pistacchio & Nocciola',
+                  description: 'Pistachio blended with Italian hazelnut',
+                  emoji: '🤎',
+                  color: 'from-warm-beige to-sand'
+                },
+                {
+                  name: 'Pistacchio & Cioccolato',
+                  description: 'Rich pistachio with dark chocolate notes',
+                  emoji: '💛',
+                  color: 'from-amber to-gold'
+                }
+              ].map((flavor) => (
+                <motion.div
+                  key={flavor.name}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -10, boxShadow: '0 20px 40px rgba(152, 222, 100, 0.2)' }}
+                  className="bg-gradient-to-br p-8 rounded-2xl text-center glass"
+                >
+                  <div className="text-6xl mb-4">{flavor.emoji}</div>
+                  <h3 className="font-display text-2xl text-pistachio-700 mb-3">{flavor.name}</h3>
+                  <p className="text-taupe mb-6">{flavor.description}</p>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    className="px-6 py-2 rounded-full bg-gradient-primary text-white font-semibold text-sm"
+                  >
+                    Try Now
+                  </motion.button>
+                </motion.div>
+              ))}
+            </div>
+          </StaggerContainer>
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Stats Section */}
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
-          >
-            {[
-              {
-                icon: '✨',
-                title: 'Premium Quality',
-                description: 'Only the finest ingredients sourced globally'
-              },
-              {
-                icon: '🎨',
-                title: 'Stunning Design',
-                description: 'Visually captivating experiences in every detail'
-              },
-              {
-                icon: '🌟',
-                title: 'Pure Perfection',
-                description: 'Crafted with meticulous attention to quality'
-              }
-            ].map((feature, idx) => (
-              <motion.div
-                key={idx}
-                whileHover={{ y: -10 }}
-                className="glass p-8 rounded-2xl text-center hover-lift"
-              >
-                <div className="text-5xl mb-4">{feature.icon}</div>
-                <h3 className="font-display text-2xl mb-3 text-ice-pink">{feature.title}</h3>
-                <p className="text-gray-400">{feature.description}</p>
-              </motion.div>
-            ))}
-          </motion.div>
+          <StaggerContainer>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+              {[
+                { stat: '50+', label: 'Years of Tradition' },
+                { stat: '10K+', label: 'Happy Customers' },
+                { stat: '100%', label: 'Pure Ingredients' },
+                { stat: '365', label: 'Days of Perfection' }
+              ].map((item) => (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6 }}
+                  viewport={{ once: true }}
+                  className="text-center"
+                >
+                  <div className="text-5xl font-display text-pistachio-600 mb-2">
+                    {item.stat}
+                  </div>
+                  <p className="text-taupe text-lg">{item.label}</p>
+                </motion.div>
+              ))}
+            </div>
+          </StaggerContainer>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-4 bg-gradient-primary">
+        <div className="max-w-4xl mx-auto text-center">
+          <FadeInOnScroll>
+            <h2 className="font-display text-5xl md:text-6xl text-white mb-6">
+              Experience Sicilian Bliss
+            </h2>
+            <p className="text-white text-lg mb-8 opacity-90">
+              Order your Pistacchio gelato today and taste the authentic flavor of Italy
+            </p>
+            <motion.button
+              whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(0,0,0,0.2)' }}
+              whileTap={{ scale: 0.95 }}
+              className="px-10 py-4 bg-white text-pistachio-600 rounded-full font-semibold text-lg shadow-lg"
+            >
+              <Link href="/contact">Order Now</Link>
+            </motion.button>
+          </FadeInOnScroll>
         </div>
       </section>
     </div>

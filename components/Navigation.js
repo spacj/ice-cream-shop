@@ -11,29 +11,29 @@ export default function Navigation() {
   const { user, isAdmin, logout } = useAuthStore();
 
   return (
-    <nav className="fixed top-0 w-full z-50 glass">
+    <nav className="fixed top-0 w-full z-50 glass border-b border-pistachio-200">
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <Logo size={48} />
-          <span className="font-display text-xl hidden md:block">Gelato Luxe</span>
+        <Link href="/" className="flex items-center gap-3">
+          <span className="text-4xl">🌿</span>
+          <span className="font-display text-2xl hidden md:block text-pistachio-700">Pistacchio</span>
         </Link>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
-          <Link href="/" className="text-white hover:text-ice-pink transition-smooth">
+          <Link href="/" className="text-pistachio-700 hover:text-pistachio-600 transition-smooth font-medium">
             Home
           </Link>
-          <Link href="/products" className="text-white hover:text-ice-pink transition-smooth">
-            Products
+          <Link href="/products" className="text-pistachio-700 hover:text-pistachio-600 transition-smooth font-medium">
+            Flavors
           </Link>
-          <Link href="/blog" className="text-white hover:text-ice-pink transition-smooth">
-            Blog
+          <Link href="/blog" className="text-pistachio-700 hover:text-pistachio-600 transition-smooth font-medium">
+            Stories
           </Link>
-          <Link href="/apply" className="text-white hover:text-ice-pink transition-smooth">
-            Apply
+          <Link href="/apply" className="text-pistachio-700 hover:text-pistachio-600 transition-smooth font-medium">
+            Join Us
           </Link>
-          <Link href="/contact" className="text-white hover:text-ice-pink transition-smooth">
+          <Link href="/contact" className="text-pistachio-700 hover:text-pistachio-600 transition-smooth font-medium">
             Contact
           </Link>
 
@@ -52,7 +52,7 @@ export default function Navigation() {
           {user && isAdmin && (
             <button
               onClick={logout}
-              className="px-4 py-2 rounded-full border border-ice-pink text-ice-pink hover:bg-ice-pink hover:text-white transition-smooth"
+              className="px-4 py-2 rounded-full border border-pistachio-600 text-pistachio-600 hover:bg-pistachio-50 transition-smooth"
             >
               Logout
             </button>
@@ -61,7 +61,7 @@ export default function Navigation() {
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden"
+          className="md:hidden text-pistachio-700"
           onClick={() => setIsOpen(!isOpen)}
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -75,17 +75,17 @@ export default function Navigation() {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="md:hidden bg-dark border-t border-ice-pink/20 p-4"
+          className="md:hidden bg-white border-t border-pistachio-200 p-4"
         >
           <div className="flex flex-col gap-4">
-            <Link href="/" className="text-white hover:text-ice-pink">Home</Link>
-            <Link href="/products" className="text-white hover:text-ice-pink">Products</Link>
-            <Link href="/blog" className="text-white hover:text-ice-pink">Blog</Link>
-            <Link href="/apply" className="text-white hover:text-ice-pink">Apply</Link>
-            <Link href="/contact" className="text-white hover:text-ice-pink">Contact</Link>
-            {isAdmin && <Link href="/admin" className="text-ice-pink">Admin</Link>}
-            {!isAdmin && !user && <Link href="/admin/login" className="text-ice-pink">Admin Login</Link>}
-            {user && isAdmin && <button onClick={logout} className="text-ice-pink">Logout</button>}
+            <Link href="/" className="text-pistachio-700 hover:text-pistachio-600 font-medium">Home</Link>
+            <Link href="/products" className="text-pistachio-700 hover:text-pistachio-600 font-medium">Flavors</Link>
+            <Link href="/blog" className="text-pistachio-700 hover:text-pistachio-600 font-medium">Stories</Link>
+            <Link href="/apply" className="text-pistachio-700 hover:text-pistachio-600 font-medium">Join Us</Link>
+            <Link href="/contact" className="text-pistachio-700 hover:text-pistachio-600 font-medium">Contact</Link>
+            {isAdmin && <Link href="/admin" className="text-pistachio-600 font-medium">Admin</Link>}
+            {!isAdmin && !user && <Link href="/admin/login" className="text-pistachio-600 font-medium">Admin Login</Link>}
+            {user && isAdmin && <button onClick={logout} className="text-pistachio-600 font-medium">Logout</button>}
           </div>
         </motion.div>
       )}

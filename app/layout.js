@@ -17,8 +17,8 @@ export default function RootLayout({ children }) {
       <head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Gelato Luxe - Premium Ice Cream</title>
-        <meta name="description" content="Experience the ultimate in premium ice cream craftsmanship and design" />
+        <title>Pistacchio - Authentic Sicilian Gelato</title>
+        <meta name="description" content="Experience authentic Sicilian pistachio gelato crafted with love and the finest ingredients from Italy" />
       </head>
       <body>
         <Navigation />
