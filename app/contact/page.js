@@ -7,6 +7,8 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { LocationSection, ReviewsSection } from '@/lib/location-reviews';
 import { FadeInOnScroll } from '@/lib/scroll-animations';
+import { formValidationRules, sanitizeFormData } from '@/lib/validation';
+import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 export default function Contact() {
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
@@ -14,8 +16,10 @@ export default function Contact() {
 
   const onSubmit = async (data) => {
     try {
+      const sanitizedData = sanitizeFormData(data);
+      
       await addDoc(collection(db, 'inquiries'), {
-        ...data,
+        ...sanitizedData,
         type: 'inquiry',
         createdAt: serverTimestamp(),
         status: 'new'
@@ -82,13 +86,23 @@ export default function Contact() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                 >
-                  <label className="block text-sm font-semibold text-charcoal mb-2">Name</label>
-                   <input
-                     {...register('name', { required: 'Name is required' })}
-                     placeholder="Your name"
-                     className="w-full px-4 py-3 rounded-lg border border-beige bg-white text-charcoal placeholder-grey-light focus:outline-none focus:border-pistach-600 transition-colors"
-                   />
-                   {errors.name && <p className="text-pistach-600 text-sm mt-1">{errors.name.message}</p>}
+                  <label htmlFor="name-input" className="block text-sm font-semibold text-charcoal mb-2">
+                    Name <span className="text-pistach-600">*</span>
+                  </label>
+                  <input
+                    id="name-input"
+                    {...register('name', formValidationRules.name)}
+                    placeholder="Your full name"
+                    aria-required="true"
+                    aria-invalid={!!errors.name}
+                    aria-describedby="name-error"
+                    className="w-full px-4 py-3 rounded-lg border border-beige bg-white text-charcoal placeholder-grey-light focus:outline-none focus:border-pistach-600 transition-colors"
+                  />
+                  {errors.name && (
+                    <p id="name-error" className="text-pistach-600 text-sm mt-1" role="alert">
+                      {errors.name.message}
+                    </p>
+                  )}
                 </motion.div>
 
                 {/* Email */}
@@ -98,14 +112,24 @@ export default function Contact() {
                   transition={{ delay: 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <label className="block text-sm font-semibold text-charcoal mb-2">Email</label>
-                   <input
-                     {...register('email', { required: 'Email is required', pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ })}
-                     type="email"
-                     placeholder="your@email.com"
-                     className="w-full px-4 py-3 rounded-lg border border-beige bg-white text-charcoal placeholder-grey-light focus:outline-none focus:border-pistach-600 transition-colors"
-                   />
-                   {errors.email && <p className="text-pistach-600 text-sm mt-1">{errors.email.message}</p>}
+                  <label htmlFor="email-input" className="block text-sm font-semibold text-charcoal mb-2">
+                    Email <span className="text-pistach-600">*</span>
+                  </label>
+                  <input
+                    id="email-input"
+                    {...register('email', formValidationRules.email)}
+                    type="email"
+                    placeholder="your@email.com"
+                    aria-required="true"
+                    aria-invalid={!!errors.email}
+                    aria-describedby="email-error"
+                    className="w-full px-4 py-3 rounded-lg border border-beige bg-white text-charcoal placeholder-grey-light focus:outline-none focus:border-pistach-600 transition-colors"
+                  />
+                  {errors.email && (
+                    <p id="email-error" className="text-pistach-600 text-sm mt-1" role="alert">
+                      {errors.email.message}
+                    </p>
+                  )}
                 </motion.div>
 
                 {/* Subject */}
@@ -115,13 +139,23 @@ export default function Contact() {
                   transition={{ delay: 0.2 }}
                   viewport={{ once: true }}
                 >
-                  <label className="block text-sm font-semibold text-charcoal mb-2">Subject</label>
-                   <input
-                     {...register('subject', { required: 'Subject is required' })}
-                     placeholder="What's this about?"
-                     className="w-full px-4 py-3 rounded-lg border border-beige bg-white text-charcoal placeholder-grey-light focus:outline-none focus:border-pistach-600 transition-colors"
-                   />
-                   {errors.subject && <p className="text-pistach-600 text-sm mt-1">{errors.subject.message}</p>}
+                  <label htmlFor="subject-input" className="block text-sm font-semibold text-charcoal mb-2">
+                    Subject <span className="text-pistach-600">*</span>
+                  </label>
+                  <input
+                    id="subject-input"
+                    {...register('subject', formValidationRules.subject)}
+                    placeholder="What's this about?"
+                    aria-required="true"
+                    aria-invalid={!!errors.subject}
+                    aria-describedby="subject-error"
+                    className="w-full px-4 py-3 rounded-lg border border-beige bg-white text-charcoal placeholder-grey-light focus:outline-none focus:border-pistach-600 transition-colors"
+                  />
+                  {errors.subject && (
+                    <p id="subject-error" className="text-pistach-600 text-sm mt-1" role="alert">
+                      {errors.subject.message}
+                    </p>
+                  )}
                 </motion.div>
 
                 {/* Message */}
@@ -131,30 +165,48 @@ export default function Contact() {
                   transition={{ delay: 0.3 }}
                   viewport={{ once: true }}
                 >
-                  <label className="block text-sm font-semibold text-charcoal mb-2">Message</label>
-                   <textarea
-                     {...register('message', { required: 'Message is required' })}
-                     rows={6}
-                     placeholder="Tell us more..."
-                     className="w-full px-4 py-3 rounded-lg border border-beige bg-white text-charcoal placeholder-grey-light focus:outline-none focus:border-pistach-600 transition-colors"
-                   />
-                   {errors.message && <p className="text-pistach-600 text-sm mt-1">{errors.message.message}</p>}
+                  <label htmlFor="message-input" className="block text-sm font-semibold text-charcoal mb-2">
+                    Message <span className="text-pistach-600">*</span>
+                  </label>
+                  <textarea
+                    id="message-input"
+                    {...register('message', formValidationRules.message)}
+                    rows={6}
+                    placeholder="Tell us more about your inquiry..."
+                    aria-required="true"
+                    aria-invalid={!!errors.message}
+                    aria-describedby="message-error"
+                    className="w-full px-4 py-3 rounded-lg border border-beige bg-white text-charcoal placeholder-grey-light focus:outline-none focus:border-pistach-600 transition-colors resize-none"
+                  />
+                  {errors.message && (
+                    <p id="message-error" className="text-pistach-600 text-sm mt-1" role="alert">
+                      {errors.message.message}
+                    </p>
+                  )}
                 </motion.div>
 
                 {/* Submit Button */}
                 <motion.button
-                   type="submit"
-                   disabled={isSubmitting}
-                   initial={{ opacity: 0, y: 20 }}
-                   whileInView={{ opacity: 1, y: 0 }}
-                   transition={{ delay: 0.4 }}
-                   viewport={{ once: true }}
-                   whileHover={{ scale: 1.05 }}
-                   whileTap={{ scale: 0.95 }}
-                   className="w-full px-8 py-4 bg-pistach-600 text-white rounded-lg font-semibold text-lg shadow-lg hover:bg-pistach-700 hover:shadow-xl transition-all disabled:opacity-50"
-                 >
-                   {isSubmitting ? 'Sending...' : 'Send Message'}
-                 </motion.button>
+                  type="submit"
+                  disabled={isSubmitting}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: isSubmitting ? 1 : 1.05 }}
+                  whileTap={{ scale: isSubmitting ? 1 : 0.95 }}
+                  className="w-full px-8 py-4 bg-pistach-600 text-white rounded-lg font-semibold text-lg shadow-lg hover:bg-pistach-700 hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  aria-busy={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <div className="flex items-center justify-center gap-2">
+                      <LoadingSpinner size="sm" inline />
+                      <span>Sending...</span>
+                    </div>
+                  ) : (
+                    'Send Message'
+                  )}
+                </motion.button>
               </form>
             </div>
           </FadeInOnScroll>

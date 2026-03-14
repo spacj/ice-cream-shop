@@ -62,10 +62,19 @@ export default function Navigation() {
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-charcoal"
+          className="md:hidden text-charcoal p-2 rounded-md hover:bg-cream transition-colors"
           onClick={() => setIsOpen(!isOpen)}
+          aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={isOpen}
+          aria-controls="mobile-navigation"
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg 
+            className="w-6 h-6" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
@@ -74,6 +83,9 @@ export default function Navigation() {
       {/* Mobile Menu */}
       {isOpen && (
         <motion.div
+          id="mobile-navigation"
+          role="navigation"
+          aria-label="Mobile navigation menu"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           className="md:hidden bg-white border-t border-beige p-4 space-y-4"

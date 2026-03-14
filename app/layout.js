@@ -1,5 +1,6 @@
 import './globals.css';
 import Navigation from '@/components/Navigation';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 export const metadata = {
   title: 'Pistacchio - Authentic Sicilian Gelato in Utrecht',
@@ -14,8 +15,10 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
       <body>
-        <Navigation />
-        <main>{children}</main>
+        <ErrorBoundary>
+          <Navigation />
+          <main>{children}</main>
+        </ErrorBoundary>
       </body>
     </html>
   );
