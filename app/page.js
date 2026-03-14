@@ -112,23 +112,26 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {[
               {
+                id: 'classico',
                 name: 'Pistacchio Classico',
                 description: 'Pure essence of Sicilian pistachio, no additives',
                 image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&h=600&fit=crop&q=85'
               },
               {
+                id: 'nocciola',
                 name: 'Pistacchio & Nocciola',
                 description: 'Pistachio blended with premium Italian hazelnut',
                 image: 'https://images.unsplash.com/photo-1583114614970-cd1525b85b88?w=600&h=600&fit=crop&q=85'
               },
               {
+                id: 'cioccolato',
                 name: 'Pistacchio & Cioccolato',
                 description: 'Rich pistachio with dark Belgian chocolate',
                 image: 'https://images.unsplash.com/photo-1629866066033-28d6af2d51b6?w=600&h=600&fit=crop&q=85'
               }
             ].map((flavor, idx) => (
               <motion.div
-                key={idx}
+                key={flavor.id}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
@@ -263,13 +266,13 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { icon: '🌾', title: 'Direct Sourcing', desc: 'From family farms in Sicily' },
-              { icon: '🏭', title: 'Daily Batch', desc: 'Small batches, fresh flavor' },
-              { icon: '✨', title: 'Pure Ingredients', desc: 'No artificial additives' },
-              { icon: '🏆', title: 'Award Winning', desc: 'Recognized excellence' }
+              { id: 'sourcing', icon: '🌾', title: 'Direct Sourcing', desc: 'From family farms in Sicily' },
+              { id: 'batch', icon: '🏭', title: 'Daily Batch', desc: 'Small batches, fresh flavor' },
+              { id: 'pure', icon: '✨', title: 'Pure Ingredients', desc: 'No artificial additives' },
+              { id: 'award', icon: '🏆', title: 'Award Winning', desc: 'Recognized excellence' }
             ].map((item, idx) => (
               <motion.div
-                key={idx}
+                key={item.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
@@ -307,10 +310,10 @@ export default function Home() {
             viewport={{ once: true }}
             className="text-center mb-16 py-12 bg-gradient-to-br from-pistach-50 to-ivory rounded-lg"
           >
-            <div className="flex justify-center gap-1 mb-6">
-              {[...Array(5)].map((_, i) => (
-                <span key={i} className="text-4xl text-caramel">★</span>
-              ))}
+              <div className="flex justify-center gap-1 mb-6">
+                {[...Array(5)].map((_, i) => (
+                  <span key={`rating-star-${i}`} className="text-4xl text-caramel">★</span>
+                ))}
             </div>
             <p className="text-5xl font-bold text-charcoal mb-2">4.9 / 5.0</p>
             <p className="text-grey-dark text-lg">Based on 246 verified Google reviews</p>
@@ -326,12 +329,12 @@ export default function Home() {
           {/* Review Samples */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { author: 'Maria K.', text: 'Exceptional quality. This is authentic gelato.' },
-              { author: 'Jan D.', text: 'The best pistachio gelato in Utrecht, hands down.' },
-              { author: 'Sophie M.', text: 'Tastes like Italy. Truly crafted with passion.' }
+              { id: 'review-maria', author: 'Maria K.', text: 'Exceptional quality. This is authentic gelato.' },
+              { id: 'review-jan', author: 'Jan D.', text: 'The best pistachio gelato in Utrecht, hands down.' },
+              { id: 'review-sophie', author: 'Sophie M.', text: 'Tastes like Italy. Truly crafted with passion.' }
             ].map((review, idx) => (
               <motion.div
-                key={idx}
+                key={review.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
@@ -340,7 +343,7 @@ export default function Home() {
               >
                 <div className="flex gap-1 mb-4">
                   {[...Array(5)].map((_, i) => (
-                    <span key={i} className="text-caramel">★</span>
+                    <span key={`review-star-${review.id}-${i}`} className="text-caramel">★</span>
                   ))}
                 </div>
                 <p className="text-grey-dark mb-4 italic">"{review.text}"</p>

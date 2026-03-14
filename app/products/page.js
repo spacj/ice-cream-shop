@@ -64,21 +64,25 @@ const FLAVORS = [
 
 const ABOUT_SECTIONS = [
   {
+    id: 'sourcing',
     icon: '🌾',
     title: 'Direct Sourcing',
     description: 'We source pistachio directly from family farms in Bronte, Sicily. Each season, we visit the growers to select only the finest nuts.'
   },
   {
+    id: 'batch',
     icon: '🏭',
     title: 'Small Batch Production',
     description: 'Every batch of gelato is handcrafted in limited quantities. This allows us to maintain uncompromising quality standards.'
   },
   {
+    id: 'pure',
     icon: '✨',
     title: 'Pure Ingredients',
     description: 'No artificial colors, flavors, or stabilizers. Our gelato is made with simple, premium ingredients you can pronounce.'
   },
   {
+    id: 'award',
     icon: '🏆',
     title: 'Award Winning',
     description: 'Our commitment to quality has been recognized by international gelato competitions and culinary awards.'
@@ -258,7 +262,7 @@ export default function Products() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {ABOUT_SECTIONS.map((section, idx) => (
               <motion.div
-                key={idx}
+                key={section.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
