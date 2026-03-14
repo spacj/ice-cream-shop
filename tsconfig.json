@@ -13,7 +13,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
-    "types": ["node", "jest", "@testing-library/jest-dom"],
+    "types": ["node"],
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
