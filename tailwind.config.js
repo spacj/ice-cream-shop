@@ -18,13 +18,23 @@ module.exports = {
         'pistachio-600': '#7CC83A',
         'pistachio-700': '#5F9A2E',
         
+        // Italian red (primary accent)
+        'italian-red': '#DC143C',
+        'red-50': '#FFF5F7',
+        'red-100': '#FFE6EB',
+        'red-200': '#FFCCD9',
+        'red-300': '#FF99B2',
+        'red-400': '#FF6680',
+        'red-500': '#DC143C', // Main Italian red
+        'red-600': '#C41230',
+        'red-700': '#A00F26',
+        
         // Italian cream and vanilla
         'cream': '#FFFAF5',
         'vanilla': '#FFF8F0',
         'ivory': '#F5F1EB',
         
-        // Italian reds and warm tones
-        'italian-red': '#DC143C',
+        // Warm tones
         'tomato': '#FF6347',
         'warm-beige': '#E8D7C3',
         'sand': '#C4B5A0',

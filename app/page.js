@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { FadeInOnScroll, SlideInOnScroll, ParallaxSection, StaggerContainer } from '@/lib/scroll-animations';
+import { LocationSection, ReviewsSection, GoogleRating } from '@/lib/location-reviews';
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -282,8 +283,61 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Reviews Section */}
+      <ReviewsSection 
+        googleRating={4.8}
+        reviewCount={246}
+        reviews={[
+          {
+            author: 'Maria Rossi',
+            rating: 5,
+            text: 'Authentic pistachio gelato that tastes like home! The flavor is incredible and reminds me of gelato from my hometown in Sicily.',
+            date: 'Last month',
+            verified: true
+          },
+          {
+            author: 'Giovanni Bianchi',
+            rating: 5,
+            text: 'Best pistachio gelato I\'ve had outside of Italy. The quality of the pistachio is outstanding!',
+            date: '3 weeks ago',
+            verified: true
+          },
+          {
+            author: 'Lucia Ferraro',
+            rating: 5,
+            text: 'Genuinely delicious! Every time I visit, I\'m blown away by the freshness and purity of flavors.',
+            date: '2 weeks ago',
+            verified: true
+          },
+          {
+            author: 'Marco Conti',
+            rating: 5,
+            text: 'As someone from Palermo, I can confirm this is the real deal. Fantastic gelato!',
+            date: '1 week ago',
+            verified: true
+          },
+          {
+            author: 'Sophie Martin',
+            rating: 5,
+            text: 'A true taste of Sicily! Wonderful creamy texture and authentic pistachio flavor.',
+            date: '5 days ago',
+            verified: true
+          },
+          {
+            author: 'Antonio Lombardi',
+            rating: 4,
+            text: 'Excellent quality gelato. The variety of flavors is impressive and everything is fresh.',
+            date: '3 days ago',
+            verified: true
+          }
+        ]}
+      />
+
+      {/* Location Section */}
+      <LocationSection />
+
       {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-primary">
+      <section className="py-20 px-4 bg-gradient-red">
         <div className="max-w-4xl mx-auto text-center">
           <FadeInOnScroll>
             <h2 className="font-display text-5xl md:text-6xl text-white mb-6">
@@ -295,7 +349,7 @@ export default function Home() {
             <motion.button
               whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(0,0,0,0.2)' }}
               whileTap={{ scale: 0.95 }}
-              className="px-10 py-4 bg-white text-pistachio-600 rounded-full font-semibold text-lg shadow-lg"
+              className="px-10 py-4 bg-white text-red-600 rounded-full font-semibold text-lg shadow-lg"
             >
               <Link href="/contact">Order Now</Link>
             </motion.button>

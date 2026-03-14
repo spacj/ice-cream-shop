@@ -21,9 +21,13 @@ body {
   overflow-x: hidden;
 }
 
-/* Gradient backgrounds - Pistachio theme */
+/* Gradient backgrounds - Pistachio & Red theme */
 .gradient-primary {
   background: linear-gradient(135deg, #98DE64 0%, #7CC83A 100%);
+}
+
+.gradient-red {
+  background: linear-gradient(135deg, #DC143C 0%, #C41230 100%);
 }
 
 .gradient-secondary {
