@@ -15,11 +15,20 @@ Pistacchio is an authentic Sicilian pistachio gelato brand with a light-spectrum
 - **Pistachio-600**: #7CC83A
 - **Pistachio-700**: #5F9A2E (Darkest)
 
+### Italian Red (Primary Accent)
+- **Red-50**: #FFF5F7 (Lightest)
+- **Red-100**: #FFE6EB
+- **Red-200**: #FFCCD9
+- **Red-300**: #FF99B2
+- **Red-400**: #FF6680
+- **Red-500**: #DC143C (Main Italian Red)
+- **Red-600**: #C41230
+- **Red-700**: #A00F26 (Darkest)
+
 ### Italian Accent Colors
-- **Italian Red**: #DC143C (Vibrant red, representing Italian flag)
-- **Tomato**: #FF6347 (Warm accent)
 - **Mediterranean Blue**: #4A90E2 (Italian sea)
 - **Sky Blue**: #87CEEB (Mediterranean sky)
+- **Tomato**: #FF6347 (Warm accent)
 
 ### Warm Tones (Italian Countryside)
 - **Cream**: #FFFAF5 (Light cream)
@@ -93,6 +102,14 @@ Pistacchio is an authentic Sicilian pistachio gelato brand with a light-spectrum
 - **VideoWithOverlay**: Video with text overlay
 - **ScrollOpacityVideo**: Video that fades on scroll
 
+### Location & Reviews Components
+- **GoogleMapEmbed**: Embedded Google Map with marker
+- **LocationCard**: Contact information card
+- **GoogleRating**: Star rating display
+- **ReviewCard**: Individual review display
+- **ReviewsSection**: Complete reviews section with ratings
+- **LocationSection**: Full location section with map
+
 ### Utility Components
 - **Badge**: Small labeled badge
 - **TagCloud**: Collection of interactive tags
@@ -110,6 +127,11 @@ Pistacchio is an authentic Sicilian pistachio gelato brand with a light-spectrum
 - Direction: 135deg
 - Colors: #98DE64 (Pistachio-500) → #7CC83A (Pistachio-600)
 - Use: Primary CTAs, highlights
+
+### Red Gradient (Primary Accent)
+- Direction: 135deg
+- Colors: #DC143C (Red-500) → #C41230 (Red-600)
+- Use: Important CTAs, location/contact sections
 
 ### Secondary Gradient
 - Direction: 135deg
@@ -199,46 +221,44 @@ tailwind.config.js           # Extended Tailwind with Pistachio colors
 
 ## Implementation Examples
 
-### Using Scroll Animations
+### Using Location & Reviews Components
 ```jsx
-import { FadeInOnScroll, SlideInOnScroll } from '@/lib/scroll-animations';
+import { LocationSection, ReviewsSection, GoogleRating } from '@/lib/location-reviews';
 
-<FadeInOnScroll>
-  <h2>Your heading fades in on scroll</h2>
-</FadeInOnScroll>
+// Full location section with map and contact info
+<LocationSection />
 
-<SlideInOnScroll direction="left">
-  <p>Slides in from left on scroll</p>
-</SlideInOnScroll>
-```
+// Reviews section with Google rating
+<ReviewsSection 
+  googleRating={4.8}
+  reviewCount={246}
+  reviews={[...]}
+/>
 
-### Using Pistachio Components
-```jsx
-import { PistachioButton, PistachioCard } from '@/lib/pistachio-components';
+// Individual review card
+<ReviewCard 
+  author="Maria Rossi"
+  rating={5}
+  text="Authentic pistachio gelato!"
+  verified={true}
+/>
 
-<PistachioButton variant="primary" size="lg">
-  Click Me
-</PistachioButton>
-
-<PistachioCard 
-  title="Pistacchio Classico"
-  description="Pure pistachio flavor"
-  icon="💚"
+// Google rating display
+<GoogleRating 
+  rating={4.8}
+  reviewCount={246}
 />
 ```
 
-### Using Video Components
+### Using Red Gradient
 ```jsx
-import { VideoHero, VideoGallery } from '@/lib/video-components';
+// Red CTA button or section
+<section className="py-20 bg-gradient-red">
+  <h2 className="text-white">Contact Us Today</h2>
+</section>
 
-<VideoHero 
-  videoSrc="/videos/hero.mp4"
-  title="Pistacchio"
-  subtitle="Genuino Italiano"
-  cta="Discover Flavors"
-/>
-
-<VideoGallery videos={[...]} />
+// Red accent variants
+<Badge variant="red">Special Offer</Badge>
 ```
 
 ## Best Practices
