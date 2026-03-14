@@ -42,11 +42,11 @@ body {
   background: linear-gradient(135deg, #FF6347 0%, #DC143C 100%);
 }
 
-/* Glass morphism - Light variant */
+/* Glass morphism - Light variant with better contrast */
 .glass {
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(152, 222, 100, 0.2);
+  border: 1px solid rgba(152, 222, 100, 0.3);
 }
 
 /* Glow effects - Pistachio theme */
@@ -76,7 +76,7 @@ body {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Text gradients - Pistachio theme */
+/* Text gradients - Pistachio & Red theme */
 .text-gradient {
   background: linear-gradient(135deg, #98DE64 0%, #4A90E2 100%);
   -webkit-background-clip: text;
@@ -92,38 +92,52 @@ body {
 }
 
 .text-gradient-italian {
-  background: linear-gradient(135deg, #DC143C 0%, #98DE64 0%, #FFD700 100%);
+  background: linear-gradient(135deg, #DC143C 0%, #98DE64 50%, #DC143C 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Hover effects */
+/* Form inputs - Better contrast */
+input, textarea, select {
+  color: #2C2C2C;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #998899;
+}
+
+input:focus, textarea:focus, select:focus {
+  color: #2C2C2C;
+}
+
+/* Button hover states */
 .hover-lift {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .hover-lift:hover {
   transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 40px rgba(220, 20, 60, 0.15);
 }
 
-/* Scrollbar - Pistachio theme */
+/* Scrollbar - Pistachio theme with better visibility */
 ::-webkit-scrollbar {
   width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(152, 222, 100, 0.1);
+  background: rgba(152, 222, 100, 0.15);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(152, 222, 100, 0.6);
-  border-radius: 5px;
+  background: linear-gradient(180deg, #98DE64, #DC143C);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(152, 222, 100, 0.9);
+  background: linear-gradient(180deg, #7CC83A, #C41230);
 }
 
 /* Display font */

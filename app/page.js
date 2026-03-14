@@ -33,22 +33,27 @@ export default function Home() {
     <div className="overflow-hidden bg-gradient-to-b from-pistachio-50 via-cream to-vanilla">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center pt-20 pb-20">
-        {/* Animated background - Italian inspired */}
+        {/* Animated background - Italian inspired with red accents */}
         <div className="absolute inset-0 overflow-hidden">
           <motion.div
-            className="absolute top-20 right-10 w-96 h-96 bg-pistachio-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30"
+            className="absolute top-20 right-10 w-96 h-96 bg-red-300 rounded-full mix-blend-multiply filter blur-3xl opacity-25"
             animate={{ y: [0, 100, 0], x: [0, 50, 0] }}
             transition={{ duration: 8, repeat: Infinity }}
           />
           <motion.div
-            className="absolute bottom-20 left-10 w-96 h-96 bg-mediterranean rounded-full mix-blend-multiply filter blur-3xl opacity-30"
+            className="absolute bottom-20 left-10 w-96 h-96 bg-pistachio-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30"
             animate={{ y: [0, -100, 0], x: [0, -50, 0] }}
             transition={{ duration: 10, repeat: Infinity }}
           />
           <motion.div
-            className="absolute top-1/2 left-1/3 w-80 h-80 bg-gold rounded-full mix-blend-multiply filter blur-3xl opacity-20"
+            className="absolute top-1/3 right-1/4 w-80 h-80 bg-mediterranean rounded-full mix-blend-multiply filter blur-3xl opacity-20"
             animate={{ y: [0, 50, 0], x: [0, -50, 0] }}
             transition={{ duration: 12, repeat: Infinity, delay: 2 }}
+          />
+          <motion.div
+            className="absolute bottom-1/3 right-1/3 w-72 h-72 bg-red-400 rounded-full mix-blend-multiply filter blur-3xl opacity-15"
+            animate={{ y: [0, -80, 0], x: [0, 60, 0] }}
+            transition={{ duration: 14, repeat: Infinity, delay: 4 }}
           />
         </div>
 
@@ -68,7 +73,7 @@ export default function Home() {
               animate={{ scale: [1, 1.05, 1] }}
               transition={{ duration: 3, repeat: Infinity }}
             >
-              <div className="w-32 h-32 rounded-full bg-gradient-primary flex items-center justify-center shadow-lg">
+              <div className="w-32 h-32 rounded-full bg-gradient-to-br from-pistachio-500 to-red-600 flex items-center justify-center shadow-lg glow-pistachio">
                 <span className="text-6xl">🌿</span>
               </div>
             </motion.div>
@@ -76,7 +81,7 @@ export default function Home() {
 
           {/* Heading */}
           <motion.h1
-            className="font-display text-6xl md:text-8xl mb-6 text-gradient-italian"
+            className="font-display text-6xl md:text-8xl mb-6 text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-pistachio-600 to-red-600"
             variants={itemVariants}
           >
             Pistacchio
@@ -84,7 +89,7 @@ export default function Home() {
 
           {/* Subheading */}
           <motion.p
-            className="text-xl md:text-3xl text-pistachio-700 mb-8 font-light italic"
+            className="text-xl md:text-3xl text-red-600 mb-8 font-light italic"
             variants={itemVariants}
           >
             Genuino Italiano
@@ -92,7 +97,7 @@ export default function Home() {
 
           {/* Description */}
           <motion.p
-            className="text-lg text-taupe max-w-2xl mx-auto mb-12 leading-relaxed"
+            className="text-lg text-dark max-w-2xl mx-auto mb-12 leading-relaxed"
             variants={itemVariants}
           >
             Experience the authentic taste of Sicily with our handcrafted pistachio gelato. Every scoop is a celebration of Italian tradition, crafted with love and the finest pistachio from the heart of Italy.
