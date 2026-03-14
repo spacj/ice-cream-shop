@@ -7,52 +7,41 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Light spectrum - Italian inspired palette
-        // Pistachio greens (primary)
-        'pistachio-50': '#F9FDF6',
-        'pistachio-100': '#F0FAE8',
-        'pistachio-200': '#E1F5D1',
-        'pistachio-300': '#C8EDAA',
-        'pistachio-400': '#B0E680',
-        'pistachio-500': '#98DE64', // Main pistachio green
-        'pistachio-600': '#7CC83A',
-        'pistachio-700': '#5F9A2E',
-        
-        // Italian red (primary accent)
-        'italian-red': '#DC143C',
-        'red-50': '#FFF5F7',
-        'red-100': '#FFE6EB',
-        'red-200': '#FFCCD9',
-        'red-300': '#FF99B2',
-        'red-400': '#FF6680',
-        'red-500': '#DC143C', // Main Italian red
-        'red-600': '#C41230',
-        'red-700': '#A00F26',
-        
-        // Italian cream and vanilla
+        // Premium gelato shop color palette
+        // Creamy neutrals (premium base)
         'cream': '#FFFAF5',
-        'vanilla': '#FFF8F0',
-        'ivory': '#F5F1EB',
+        'ivory': '#F8F5F0',
+        'vanilla': '#FAF7F2',
+        'off-white': '#F5F3F0',
         
-        // Warm tones
-        'tomato': '#FF6347',
-        'warm-beige': '#E8D7C3',
-        'sand': '#C4B5A0',
+        // Sophisticated greens (pistachio)
+        'pistach-50': '#F4F8F3',
+        'pistach-100': '#E8F1E6',
+        'pistach-200': '#D1E3CD',
+        'pistach-300': '#9DBE7D',
+        'pistach-400': '#7BA557',
+        'pistach-500': '#4A7C59', // Main pistachio - sophisticated
+        'pistach-600': '#3A6347',
+        'pistach-700': '#2D4D38',
         
-        // Soft Italian blues
-        'mediterranean': '#4A90E2',
-        'sky-blue': '#87CEEB',
-        'sea-foam': '#93E9BE',
+        // Gold/caramel (warmth, luxury)
+        'caramel': '#D4A574',
+        'gold-dark': '#C29A5A',
+        'gold-light': '#E8C9A0',
+        'honey': '#DDAA4F',
         
-        // Gold and amber
-        'gold': '#FFD700',
-        'amber': '#FFC700',
-        'ochre': '#CC8844',
+        // Sophisticated neutrals
+        'charcoal': '#3D3D3D',
+        'grey-dark': '#4A4A4A',
+        'grey-light': '#8B8B8B',
+        'taupe': '#6B6360',
+        'beige': '#D4C5B0',
         
-        // Neutral light grays
-        'cloud': '#F8F8F8',
-        'mist': '#E8E8E8',
-        'taupe': '#B8A0A0',
+        // Accents for depth
+        'slate': '#5A5A5A',
+        'warm-grey': '#A89A8F',
+        
+        // Legacy colors for compatibility
         'dark': '#2C2C2C',
       },
       fontFamily: {
