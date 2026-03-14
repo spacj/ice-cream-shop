@@ -6,20 +6,20 @@ import { useState, useEffect } from 'react';
 import { FadeInOnScroll } from '@/lib/scroll-animations';
 import { PremiumImage, VideoBackground, ImageGallery, ImageCarousel, VideoPlayer } from '@/lib/media-components';
 
-// Sample image data - replace with real images
+// Premium gelato and artisan ice cream images from high-quality sources
 const sampleImages = [
   { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=800&fit=crop', alt: 'Pistachio gelato scoop', caption: 'Pistacchio Classico' },
-  { src: 'https://images.unsplash.com/photo-1545521521-83bd8e6b45ae?w=800&h=800&fit=crop', alt: 'Gelato display', caption: 'Our gelato bar' },
-  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=800&fit=crop', alt: 'Creamy texture', caption: 'Premium gelato' },
-  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=800&fit=crop', alt: 'Flavors', caption: 'Signature flavors' },
-  { src: 'https://images.unsplash.com/photo-1545521521-83bd8e6b45ae?w=800&h=800&fit=crop', alt: 'Shop ambiance', caption: 'Shop interior' },
-  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=800&fit=crop', alt: 'Gelato making', caption: 'Handcrafted' },
+  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=800&fit=crop', alt: 'Gelato display case', caption: 'Our gelato bar' },
+  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=800&fit=crop', alt: 'Creamy pistachio texture', caption: 'Premium gelato' },
+  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=800&fit=crop', alt: 'Array of gelato flavors', caption: 'Signature flavors' },
+  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=800&fit=crop', alt: 'Modern shop ambiance', caption: 'Shop interior' },
+  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=800&fit=crop', alt: 'Handcrafted gelato preparation', caption: 'Handcrafted' },
 ];
 
 const carouselImages = [
-  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=1200&h=600&fit=crop', alt: 'Featured flavor 1' },
-  { src: 'https://images.unsplash.com/photo-1545521521-83bd8e6b45ae?w=1200&h=600&fit=crop', alt: 'Featured flavor 2' },
-  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=1200&h=600&fit=crop', alt: 'Featured flavor 3' },
+  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=1200&h=600&fit=crop', alt: 'Pistachio gelato featured' },
+  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=1200&h=600&fit=crop', alt: 'Artisan gelato creation' },
+  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=1200&h=600&fit=crop', alt: 'Premium ingredients showcase' },
 ];
 
 export default function Home() {
@@ -35,11 +35,11 @@ export default function Home() {
       <section className="relative w-full min-h-screen flex items-stretch pt-32">
         {/* Video Background */}
         <div className="absolute inset-0 top-32 w-full h-full">
-          <VideoBackground 
-            src="/videos/hero-gelato.mp4"
-            poster="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=1600&h=1200&fit=crop"
-            className="w-full h-full"
-          />
+           <VideoBackground 
+             src="/videos/hero-gelato.mp4"
+             poster="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=1600&h=1200&fit=crop&q=80"
+             className="w-full h-full"
+           />
           {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-r from-cream/80 to-cream/20"></div>
         </div>
@@ -114,17 +114,17 @@ export default function Home() {
               {
                 name: 'Pistacchio Classico',
                 description: 'Pure essence of Sicilian pistachio, no additives',
-                image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&h=600&fit=crop'
+                image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&h=600&fit=crop&q=85'
               },
               {
                 name: 'Pistacchio & Nocciola',
                 description: 'Pistachio blended with premium Italian hazelnut',
-                image: 'https://images.unsplash.com/photo-1545521521-83bd8e6b45ae?w=600&h=600&fit=crop'
+                image: 'https://images.unsplash.com/photo-1583114614970-cd1525b85b88?w=600&h=600&fit=crop&q=85'
               },
               {
                 name: 'Pistacchio & Cioccolato',
                 description: 'Rich pistachio with dark Belgian chocolate',
-                image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&h=600&fit=crop'
+                image: 'https://images.unsplash.com/photo-1629866066033-28d6af2d51b6?w=600&h=600&fit=crop&q=85'
               }
             ].map((flavor, idx) => (
               <motion.div
@@ -175,7 +175,7 @@ export default function Home() {
             >
               <VideoPlayer
                 src="/videos/gelato-making.mp4"
-                poster="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=600&fit=crop"
+                poster="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=600&fit=crop&q=85"
                 title="Our Gelato Making Process"
               />
             </motion.div>
@@ -425,8 +425,8 @@ export default function Home() {
               className="rounded-lg overflow-hidden shadow-xl"
             >
               <PremiumImage
-                src="https://images.unsplash.com/photo-1567521464027-f127ff144326?w=800&h=800&fit=crop"
-                alt="Pistacchio Utrecht shop"
+                src="https://images.unsplash.com/photo-1567521464027-f127ff144326?w=800&h=800&fit=crop&q=85"
+                alt="Pistacchio Utrecht shop interior"
                 className="w-full aspect-square"
               />
             </motion.div>

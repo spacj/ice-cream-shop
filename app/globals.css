@@ -1,3 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #FFFAF5 0%, #F8F5F0 25%, #FAF7F2 50%, #F5F3F0 75%, #FFFAF5 100%);
+  background-attachment: fixed;
+  color: #3D3D3D;
+  overflow-x: hidden;
+}
+
+/* Premium Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+}
+
+/* Gradient backgrounds */
+.gradient-primary {
+  background: linear-gradient(135deg, #4A7C59 0%, #3A6347 100%);
+}
+
+.gradient-accent {
+  background: linear-gradient(135deg, #D4A574 0%, #C29A5A 100%);
+}
+
+/* Premium decorative line */
+.accent-line {
+  height: 3px;
+  background: linear-gradient(90deg, #D4A574, transparent);
+  width: 80px;
+}
+
+/* Glass effect - premium */
+.glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(74, 124, 89, 0.1);
+}
+
+/* Scrollbar - premium */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #4A7C59, #D4A574);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #3A6347, #C29A5A);
+}
+
+/* Smooth transitions */
+.transition-smooth {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hover lift effect */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px rgba(74, 124, 89, 0.1);
+}
+
+/* Form inputs */
+input, textarea, select {
+  color: #3D3D3D;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #A89A8F;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: #4A7C59;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.6s ease-out;
+}
+
 /* Section backgrounds with patterns */
 section {
   position: relative;
@@ -22,11 +153,6 @@ section.bg-pistach-50 {
   background: linear-gradient(135deg, #F4F8F3 0%, #F0F5ED 100%);
 }
 
-/* Gradient sections */
-section.bg-gradient-to-b {
-  position: relative;
-}
-
 /* Premium shadow for cards */
 .card-shadow {
   box-shadow: 0 10px 40px rgba(74, 124, 89, 0.08);
@@ -46,4 +172,19 @@ img {
 video {
   display: block;
   width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  h2 {
+    font-size: 1.75rem;
+  }
 }
