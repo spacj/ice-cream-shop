@@ -14,8 +14,8 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pistach-500 to-caramel flex items-center justify-center group-hover:shadow-lg transition-shadow">
-            <span className="text-xl">🌿</span>
+          <div className="w-10 h-10 flex items-center justify-center group-hover:shadow-lg transition-shadow">
+            <img src="/logo.png" alt="Pistacchio Logo" className="w-10 h-10 object-contain" />
           </div>
           <div className="hidden sm:block">
             <p className="text-sm tracking-widest text-pistach-500 font-semibold">PISTACCHIO</p>

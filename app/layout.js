@@ -2,6 +2,7 @@ import './globals.css';
 import Navigation from '@/components/Navigation';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import CookieConsent from '@/components/CookieConsent';
+import Footer from '@/components/Footer';
 
 export const metadata = {
   title: 'Pistacchio - Authentic Sicilian Gelato in Utrecht',
@@ -20,6 +21,7 @@ export default function RootLayout({ children }) {
           <Navigation />
           <main>{children}</main>
           <CookieConsent />
+          <Footer />
         </ErrorBoundary>
       </body>
     </html>
