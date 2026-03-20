@@ -1,6 +1,7 @@
 import './globals.css';
 import Navigation from '@/components/Navigation';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import CookieConsent from '@/components/CookieConsent';
 
 export const metadata = {
   title: 'Pistacchio - Authentic Sicilian Gelato in Utrecht',
@@ -18,6 +19,7 @@ export default function RootLayout({ children }) {
         <ErrorBoundary>
           <Navigation />
           <main>{children}</main>
+          <CookieConsent />
         </ErrorBoundary>
       </body>
     </html>
