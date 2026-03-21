@@ -4,12 +4,10 @@ import { motion } from 'framer-motion';
 import { useAuthStore } from '@/lib/store';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { collection, getDocs, query, where, deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
-import Link from 'next/link';
+import { getDb } from '@/lib/firebase';
 
 export default function AdminDashboard() {
-  const { user, isAdmin, logout } = useAuthStore();
+  const { user, isAdmin, logout, loading: authLoading, initializeAuth } = useAuthStore();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('inquiries');
   const [inquiries, setInquiries] = useState([]);
@@ -18,6 +16,11 @@ export default function AdminDashboard() {
   const [expandedItem, setExpandedItem] = useState(null);
 
   useEffect(() => {
+    initializeAuth();
+  }, [initializeAuth]);
+
+  useEffect(() => {
+    if (authLoading) return;
     if (!user || !isAdmin) {
       router.push('/admin/login');
       return;
@@ -25,20 +28,26 @@ export default function AdminDashboard() {
 
     const fetchData = async () => {
       try {
-        // Only fetch from Firebase if it's initialized
-        if (db) {
-          // Fetch inquiries
-          const inquiriesSnap = await getDocs(
-            query(collection(db, 'inquiries'), where('type', '==', 'inquiry'))
-          );
-          setInquiries(inquiriesSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-
-          // Fetch applications
-          const appsSnap = await getDocs(
-            query(collection(db, 'applications'), where('type', '==', 'job_application'))
-          );
-          setApplications(appsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        const db = await getDb();
+        if (!db) {
+          console.error('Firebase not initialized');
+          setLoading(false);
+          return;
         }
+
+        const { collection, getDocs, query, where } = await import('firebase/firestore');
+        
+        // Fetch inquiries
+        const inquiriesSnap = await getDocs(
+          query(collection(db, 'inquiries'), where('type', '==', 'inquiry'))
+        );
+        setInquiries(inquiriesSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+
+        // Fetch applications
+        const appsSnap = await getDocs(
+          query(collection(db, 'applications'), where('type', '==', 'job_application'))
+        );
+        setApplications(appsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -46,11 +55,13 @@ export default function AdminDashboard() {
     };
 
     fetchData();
-  }, [user, isAdmin, router]);
+  }, [user, isAdmin, authLoading, router]);
 
   const handleDelete = async (collectionName, docId) => {
     if (confirm('Are you sure you want to delete this item?')) {
       try {
+        const db = await getDb();
+        const { doc, deleteDoc } = await import('firebase/firestore');
         await deleteDoc(doc(db, collectionName, docId));
         if (collectionName === 'inquiries') {
           setInquiries(inquiries.filter(i => i.id !== docId));
@@ -65,6 +76,8 @@ export default function AdminDashboard() {
 
   const handleStatusChange = async (collectionName, docId, newStatus) => {
     try {
+      const db = await getDb();
+      const { doc, updateDoc } = await import('firebase/firestore');
       await updateDoc(doc(db, collectionName, docId), { status: newStatus });
       if (collectionName === 'inquiries') {
         setInquiries(inquiries.map(i => i.id === docId ? { ...i, status: newStatus } : i));

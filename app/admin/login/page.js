@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store';
 import Logo from '@/components/Logo';
@@ -11,8 +11,22 @@ export default function AdminLogin() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [initError, setInitError] = useState('');
   const router = useRouter();
-  const { login } = useAuthStore();
+  const { login, initializeAuth, user, isAdmin, loading: authLoading } = useAuthStore();
+
+  useEffect(() => {
+    initializeAuth().catch(err => {
+      console.error('Auth init error:', err);
+      setInitError('Failed to initialize authentication. Please refresh the page.');
+    });
+  }, [initializeAuth]);
+
+  useEffect(() => {
+    if (!authLoading && user && isAdmin) {
+      router.push('/admin');
+    }
+  }, [user, isAdmin, authLoading, router]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
