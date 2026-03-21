@@ -13,14 +13,21 @@ export default function AdminLogin() {
   const [loading, setLoading] = useState(false);
   const [initError, setInitError] = useState('');
   const router = useRouter();
-  const { login, initializeAuth, user, isAdmin, loading: authLoading } = useAuthStore();
+  const { login, initializeAuth, user, isAdmin, loading: authLoading, error: authError } = useAuthStore();
 
   useEffect(() => {
+    console.log('[LoginPage] Mounted, initializing auth...');
     initializeAuth().catch(err => {
       console.error('Auth init error:', err);
       setInitError('Failed to initialize authentication. Please refresh the page.');
     });
   }, [initializeAuth]);
+
+  useEffect(() => {
+    if (authError) {
+      setInitError(authError);
+    }
+  }, [authError]);
 
   useEffect(() => {
     if (!authLoading && user && isAdmin) {
