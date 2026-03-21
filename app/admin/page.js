@@ -25,17 +25,20 @@ export default function AdminDashboard() {
 
     const fetchData = async () => {
       try {
-        // Fetch inquiries
-        const inquiriesSnap = await getDocs(
-          query(collection(db, 'inquiries'), where('type', '==', 'inquiry'))
-        );
-        setInquiries(inquiriesSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        // Only fetch from Firebase if it's initialized
+        if (db) {
+          // Fetch inquiries
+          const inquiriesSnap = await getDocs(
+            query(collection(db, 'inquiries'), where('type', '==', 'inquiry'))
+          );
+          setInquiries(inquiriesSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
 
-        // Fetch applications
-        const appsSnap = await getDocs(
-          query(collection(db, 'applications'), where('type', '==', 'job_application'))
-        );
-        setApplications(appsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+          // Fetch applications
+          const appsSnap = await getDocs(
+            query(collection(db, 'applications'), where('type', '==', 'job_application'))
+          );
+          setApplications(appsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }

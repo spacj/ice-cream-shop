@@ -24,8 +24,10 @@ export default function ManageBlog() {
 
     const fetchArticles = async () => {
       try {
-        const snapshot = await getDocs(collection(db, 'articles'));
-        setArticles(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        if (db) {
+          const snapshot = await getDocs(collection(db, 'articles'));
+          setArticles(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        }
       } catch (error) {
         console.error('Error fetching articles:', error);
       }

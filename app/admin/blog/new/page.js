@@ -40,6 +40,9 @@ export default function CreateBlogPost() {
     setLoading(true);
 
     try {
+      if (!db) {
+        throw new Error('Firebase not initialized');
+      }
       await addDoc(collection(db, 'articles'), {
         ...formData,
         createdAt: serverTimestamp(),

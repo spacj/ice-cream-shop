@@ -18,6 +18,12 @@ export default function Contact() {
     try {
       const sanitizedData = sanitizeFormData(data);
       
+      if (!db) {
+        setSubmitStatus('error');
+        console.error('Firebase not initialized');
+        return;
+      }
+      
       await addDoc(collection(db, 'inquiries'), {
         ...sanitizedData,
         type: 'inquiry',

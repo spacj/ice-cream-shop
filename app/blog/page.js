@@ -79,11 +79,14 @@ export default function Blog() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const q = query(collection(db, 'articles'), where('published', '==', true));
-        const snapshot = await getDocs(q);
-        const fbArticles = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        if (fbArticles.length > 0) {
-          setArticles(fbArticles);
+        // Only fetch from Firebase if it's initialized
+        if (db) {
+          const q = query(collection(db, 'articles'), where('published', '==', true));
+          const snapshot = await getDocs(q);
+          const fbArticles = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          if (fbArticles.length > 0) {
+            setArticles(fbArticles);
+          }
         }
       } catch (error) {
         console.error('Error fetching articles:', error);

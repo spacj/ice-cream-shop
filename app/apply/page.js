@@ -20,6 +20,9 @@ export default function Apply() {
 
   const onSubmit = async (data) => {
     try {
+      if (!db) {
+        throw new Error('Firebase not initialized');
+      }
       await addDoc(collection(db, 'applications'), {
         ...data,
         type: 'job_application',
