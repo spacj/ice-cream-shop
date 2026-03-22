@@ -5,6 +5,7 @@ import { useAuthStore } from '@/lib/store';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { getDb } from '@/lib/firebase';
+import Link from 'next/link';
 
 export default function AdminDashboard() {
   const { user, isAdmin, logout, loading: authLoading, initializeAuth } = useAuthStore();
