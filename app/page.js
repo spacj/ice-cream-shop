@@ -64,12 +64,14 @@ export default function Home() {
               <p className="text-lg text-grey-dark max-w-xl leading-relaxed mb-8">
                 Hand-crafted daily from the finest Sicilian pistachio, sustainably sourced and prepared with uncompromising attention to quality.
               </p>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                className="px-8 py-4 bg-pistach-500 text-white rounded-lg font-semibold hover:bg-pistach-600 transition-colors"
-              >
-                <Link href="#flavors">Explore Our Gelato</Link>
-              </motion.button>
+              <Link href="#flavors">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  className="px-8 py-4 bg-pistach-500 text-white rounded-lg font-semibold hover:bg-pistach-600 transition-colors"
+                >
+                  Explore Our Gelato
+                </motion.button>
+              </Link>
             </motion.div>
           </div>
         </div>
@@ -151,12 +153,12 @@ export default function Home() {
                 <p className="text-grey-dark text-lg mb-6">
                   {flavor.description}
                 </p>
-                <motion.button
-                  whileHover={{ x: 10 }}
+                <button
+                  type="button"
                   className="text-pistach-600 font-semibold flex items-center gap-2 hover:text-pistach-700 transition-colors"
                 >
                   Discover More →
-                </motion.button>
+                </button>
               </motion.div>
             ))}
           </div>
@@ -485,13 +487,12 @@ export default function Home() {
             <p className="text-lg text-pistach-100 mb-12 max-w-2xl mx-auto">
               Visit our gelato boutique in Utrecht's historic center and taste the difference that premium craftsmanship makes.
             </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            <button
+              type="button"
               className="px-10 py-4 bg-white text-pistach-600 rounded-lg font-semibold text-lg hover:bg-cream transition-colors"
             >
               Visit Us Today
-            </motion.button>
+            </button>
           </motion.div>
         </div>
       </section>
