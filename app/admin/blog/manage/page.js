@@ -4,17 +4,20 @@ import { motion } from 'framer-motion';
 import { useAuthStore } from '@/lib/store';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { collection, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { getDb } from '@/lib/firebase';
 import Link from 'next/link';
 
 export default function ManageBlog() {
-  const { user, isAdmin } = useAuthStore();
+  const { user, isAdmin, initializeAuth } = useAuthStore();
   const router = useRouter();
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({});
+
+  useEffect(() => {
+    initializeAuth();
+  }, [initializeAuth]);
 
   useEffect(() => {
     if (!user || !isAdmin) {
@@ -24,7 +27,9 @@ export default function ManageBlog() {
 
     const fetchArticles = async () => {
       try {
+        const db = await getDb();
         if (db) {
+          const { collection, getDocs } = await import('firebase/firestore');
           const snapshot = await getDocs(collection(db, 'articles'));
           setArticles(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
         }
@@ -40,6 +45,8 @@ export default function ManageBlog() {
   const handleDelete = async (id) => {
     if (confirm('Are you sure you want to delete this article?')) {
       try {
+        const db = await getDb();
+        const { doc, deleteDoc } = await import('firebase/firestore');
         await deleteDoc(doc(db, 'articles', id));
         setArticles(articles.filter(a => a.id !== id));
       } catch (error) {
@@ -50,6 +57,8 @@ export default function ManageBlog() {
 
   const handleTogglePublish = async (id, currentStatus) => {
     try {
+      const db = await getDb();
+      const { doc, updateDoc } = await import('firebase/firestore');
       await updateDoc(doc(db, 'articles', id), {
         published: !currentStatus
       });
@@ -68,6 +77,8 @@ export default function ManageBlog() {
 
   const handleEditSave = async (id) => {
     try {
+      const db = await getDb();
+      const { doc, updateDoc } = await import('firebase/firestore');
       await updateDoc(doc(db, 'articles', id), {
         title: editData.title,
         excerpt: editData.excerpt,
@@ -133,7 +144,6 @@ export default function ManageBlog() {
                 className="glass rounded-xl overflow-hidden"
               >
                 {editingId === article.id ? (
-                  // Edit Mode
                   <div className="p-6 space-y-4">
                     <div>
                       <label className="block text-sm font-semibold mb-2 text-gray-300">Title</label>
@@ -185,7 +195,6 @@ export default function ManageBlog() {
                     </div>
                   </div>
                 ) : (
-                  // View Mode
                   <div className="p-6 flex items-start justify-between gap-6">
                     {article.image && (
                       <img

@@ -4,12 +4,11 @@ import { motion } from 'framer-motion';
 import { useAuthStore } from '@/lib/store';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { getDb } from '@/lib/firebase';
 import Link from 'next/link';
 
 export default function CreateBlogPost() {
-  const { user, isAdmin } = useAuthStore();
+  const { user, isAdmin, initializeAuth } = useAuthStore();
   const router = useRouter();
   const [formData, setFormData] = useState({
     title: '',
@@ -20,6 +19,10 @@ export default function CreateBlogPost() {
   });
   const [loading, setLoading] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
+
+  useEffect(() => {
+    initializeAuth();
+  }, [initializeAuth]);
 
   useEffect(() => {
     if (!user || !isAdmin) {
@@ -40,9 +43,11 @@ export default function CreateBlogPost() {
     setLoading(true);
 
     try {
+      const db = await getDb();
       if (!db) {
         throw new Error('Firebase not initialized');
       }
+      const { collection, addDoc, serverTimestamp } = await import('firebase/firestore');
       await addDoc(collection(db, 'articles'), {
         ...formData,
         createdAt: serverTimestamp(),
@@ -64,7 +69,6 @@ export default function CreateBlogPost() {
   return (
     <div className="min-h-screen pt-24 pb-20 px-4">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -78,7 +82,6 @@ export default function CreateBlogPost() {
           </Link>
         </motion.div>
 
-        {/* Form */}
         <motion.form
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -106,7 +109,6 @@ export default function CreateBlogPost() {
             </motion.div>
           )}
 
-          {/* Title */}
           <div>
             <label className="block text-sm font-semibold mb-2 text-gray-300">
               Article Title
@@ -122,7 +124,6 @@ export default function CreateBlogPost() {
             />
           </div>
 
-          {/* Excerpt */}
           <div>
             <label className="block text-sm font-semibold mb-2 text-gray-300">
               Excerpt (preview text)
@@ -137,7 +138,6 @@ export default function CreateBlogPost() {
             />
           </div>
 
-          {/* Image URL */}
           <div>
             <label className="block text-sm font-semibold mb-2 text-gray-300">
               Featured Image URL
@@ -157,7 +157,6 @@ export default function CreateBlogPost() {
             )}
           </div>
 
-          {/* Content */}
           <div>
             <label className="block text-sm font-semibold mb-2 text-gray-300">
               Article Content
@@ -173,7 +172,6 @@ export default function CreateBlogPost() {
             />
           </div>
 
-          {/* Published Toggle */}
           <div className="flex items-center gap-3">
             <input
               type="checkbox"
@@ -188,7 +186,6 @@ export default function CreateBlogPost() {
             </label>
           </div>
 
-          {/* Submit Button */}
           <motion.button
             type="submit"
             disabled={loading}
