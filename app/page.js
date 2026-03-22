@@ -137,7 +137,6 @@ export default function Home() {
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
                 viewport={{ once: true }}
               >
-                {/* Image */}
                 <div className="rounded-lg aspect-square overflow-hidden mb-8 shadow-lg group cursor-pointer">
                   <PremiumImage 
                     src={flavor.image}
@@ -146,7 +145,6 @@ export default function Home() {
                   />
                 </div>
                 
-                {/* Info */}
                 <h3 className="text-2xl font-serif font-bold text-charcoal mb-3">
                   {flavor.name}
                 </h3>

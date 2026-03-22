@@ -11,7 +11,6 @@ const NAV_ITEMS = [
   { id: 'inquiries', label: 'Inquiries', icon: 'mail' },
   { id: 'applications', label: 'Applications', icon: 'users' },
   { id: 'articles', label: 'Articles', icon: 'file-text' },
-  { id: 'content', label: 'Site Content', icon: 'edit' },
   { id: 'settings', label: 'Settings', icon: 'settings' },
 ];
 
@@ -27,12 +26,12 @@ const ICONS = {
   trash: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />,
   chevronDown: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />,
   chevronRight: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />,
-  calendar: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />,
   check: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />,
   eye: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />,
   save: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />,
   pluscircle: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />,
   x: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />,
+  pencil: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />,
 };
 
 function Icon({ name, className = "w-5 h-5" }) {
@@ -70,7 +69,7 @@ function StatCard({ label, value, icon, color }) {
 
 function Sidebar({ activeTab, setActiveTab, user, onLogout }) {
   return (
-    <aside className="w-64 min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 border-r border-white/5 flex flex-col">
+    <aside className="w-64 min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 border-r border-white/5 flex flex-col fixed left-0 top-0 z-50">
       <div className="p-6 border-b border-white/5">
         <div className="flex items-center gap-3">
           <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain" />
@@ -170,7 +169,7 @@ function InquiriesTab({ inquiries, handleDelete, handleStatusChange }) {
                 </div>
               </div>
               <button onClick={() => setExpandedId(expandedId === inquiry.id ? null : inquiry.id)} className="flex items-center gap-2 text-pistach-400 hover:text-pistach-300 text-sm">
-                <Icon name="chevronDown" className={`w-4 h-4 transition-transform ${expandedId === inquiry.id ? 'rotate-180' : ''}`} />
+                <Icon name={expandedId === inquiry.id ? 'chevronDown' : 'chevronDown'} className={`w-4 h-4 transition-transform ${expandedId === inquiry.id ? 'rotate-180' : ''}`} />
                 {expandedId === inquiry.id ? 'Hide' : 'View'} Message
               </button>
               <AnimatePresence>
@@ -223,7 +222,6 @@ function ApplicationsTab({ applications, handleDelete, handleStatusChange }) {
                   </div>
                   <p className="text-slate-400 text-sm mb-1">{app.fullName}</p>
                   <p className="text-slate-500 text-sm">{app.email} • {app.phone}</p>
-                  <p className="text-slate-600 text-xs mt-1">{app.createdAt?.toDate?.()?.toLocaleDateString() || 'Recent'} • {app.experience} years experience</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <select value={app.status || 'new'} onChange={(e) => handleStatusChange('applications', app.id, e.target.value)} className="bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-pistach-500">
@@ -275,188 +273,40 @@ function ArticlesTab({ articles, handleDelete, handleTogglePublish }) {
         </div>
       ) : (
         <div className="bg-slate-800/80 border border-slate-700/50 rounded-xl overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-slate-700/50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase">Title</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase">Status</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase">Date</th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-slate-400 uppercase">Actions</th>
+          <table className="w-full">
+            <thead className="bg-slate-700/50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase">Title</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase">Date</th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-slate-400 uppercase">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-700/50">
+              {articles.map((article) => (
+                <tr key={article.id} className="hover:bg-slate-700/30 transition-colors">
+                  <td className="px-6 py-4">
+                    <p className="font-medium text-slate-100">{article.title}</p>
+                    <p className="text-sm text-slate-500 truncate max-w-md">{article.excerpt}</p>
+                  </td>
+                  <td className="px-6 py-4">
+                    <button onClick={() => handleTogglePublish(article.id, article.published)} className={`px-3 py-1 rounded-full text-xs font-medium ${article.published ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-600/50 text-slate-400'}`}>
+                      {article.published ? 'Published' : 'Draft'}
+                    </button>
+                  </td>
+                  <td className="px-6 py-4 text-sm text-slate-400">{article.createdAt?.toDate?.()?.toLocaleDateString() || 'Recent'}</td>
+                  <td className="px-6 py-4 text-right">
+                    <div className="flex items-center justify-end gap-2">
+                      <a href={`/blog/${article.id}`} target="_blank" className="p-2 text-slate-400 hover:text-pistach-400 hover:bg-slate-700/50 rounded-lg transition-colors"><Icon name="eye" className="w-4 h-4" /></a>
+                      <button onClick={() => handleDelete('articles', article.id)} className="p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"><Icon name="trash" className="w-4 h-4" /></button>
+                    </div>
+                  </td>
                 </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-700/50">
-                {articles.map((article) => (
-                  <tr key={article.id} className="hover:bg-slate-700/30 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        {article.image && <img src={article.image} alt="" className="w-12 h-12 rounded-lg object-cover" />}
-                        <div>
-                          <p className="font-medium text-slate-100">{article.title}</p>
-                          <p className="text-sm text-slate-500 truncate max-w-md">{article.excerpt}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <button onClick={() => handleTogglePublish(article.id, article.published)} className={`px-3 py-1 rounded-full text-xs font-medium ${article.published ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-600/50 text-slate-400'}`}>
-                        {article.published ? 'Published' : 'Draft'}
-                      </button>
-                    </td>
-                    <td className="px-6 py-4 text-sm text-slate-400">{article.createdAt?.toDate?.()?.toLocaleDateString() || 'Recent'}</td>
-                    <td className="px-6 py-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <a href={`/blog/${article.id}`} target="_blank" className="p-2 text-slate-400 hover:text-pistach-400 hover:bg-slate-700/50 rounded-lg transition-colors" title="View">
-                          <Icon name="eye" className="w-4 h-4" />
-                        </a>
-                        <button onClick={() => handleDelete('articles', article.id)} className="p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors" title="Delete">
-                          <Icon name="trash" className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
-    </div>
-  );
-}
-
-function ContentTab({ content, onSave }) {
-  const [formData, setFormData] = useState(content);
-  const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
-
-  const handleChange = (section, field, value) => {
-    setFormData(prev => ({
-      ...prev,
-      [section]: {
-        ...prev[section],
-        [field]: value
-      }
-    }));
-    setSaved(false);
-  };
-
-  const handleSave = async () => {
-    setSaving(true);
-    await onSave(formData);
-    setSaving(false);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 3000);
-  };
-
-  return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h2 className="text-xl font-bold text-slate-100">Editable Site Content</h2>
-          <p className="text-sm text-slate-500">These sections appear on your homepage and affect SEO</p>
-        </div>
-        <div className="flex items-center gap-3">
-          {saved && <span className="text-emerald-400 text-sm flex items-center gap-1"><Icon name="check" className="w-4 h-4" /> Saved!</span>}
-          <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={saving} className="flex items-center gap-2 px-4 py-2 bg-pistach-600 text-white rounded-lg hover:bg-pistach-500 transition-colors disabled:opacity-50">
-            <Icon name="save" className="w-4 h-4" />
-            {saving ? 'Saving...' : 'Save Changes'}
-          </motion.button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Contact Section */}
-        <div className="bg-slate-800/80 border border-slate-700/50 rounded-xl p-6">
-          <h3 className="font-semibold text-slate-100 mb-4 flex items-center gap-2">
-            <Icon name="mail" className="w-5 h-5 text-pistach-400" />
-            Contact Information
-          </h3>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-400 mb-1">Email</label>
-              <input type="email" value={formData.contact?.email || ''} onChange={(e) => handleChange('contact', 'email', e.target.value)} className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2.5 text-slate-200 focus:outline-none focus:border-pistach-500" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-400 mb-1">Phone</label>
-              <input type="tel" value={formData.contact?.phone || ''} onChange={(e) => handleChange('contact', 'phone', e.target.value)} className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2.5 text-slate-200 focus:outline-none focus:border-pistach-500" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-400 mb-1">Address</label>
-              <textarea value={formData.contact?.address || ''} onChange={(e) => handleChange('contact', 'address', e.target.value)} rows={2} className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2.5 text-slate-200 focus:outline-none focus:border-pistach-500 resize-none" />
-            </div>
-          </div>
-        </div>
-
-        {/* Flavors Section */}
-        <div className="bg-slate-800/80 border border-slate-700/50 rounded-xl p-6">
-          <h3 className="font-semibold text-slate-100 mb-4 flex items-center gap-2">
-            <Icon name="edit" className="w-5 h-5 text-pistach-400" />
-            Flavors Section
-          </h3>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-400 mb-1">Section Title</label>
-              <input type="text" value={formData.flavors?.title || ''} onChange={(e) => handleChange('flavors', 'title', e.target.value)} className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2.5 text-slate-200 focus:outline-none focus:border-pistach-500" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-400 mb-1">Section Subtitle</label>
-              <input type="text" value={formData.flavors?.subtitle || ''} onChange={(e) => handleChange('flavors', 'subtitle', e.target.value)} className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2.5 text-slate-200 focus:outline-none focus:border-pistach-500" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-400 mb-1">Description</label>
-              <textarea value={formData.flavors?.description || ''} onChange={(e) => handleChange('flavors', 'description', e.target.value)} rows={3} className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2.5 text-slate-200 focus:outline-none focus:border-pistach-500 resize-none" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Individual Flavors */}
-      <div className="bg-slate-800/80 border border-slate-700/50 rounded-xl p-6">
-        <h3 className="font-semibold text-slate-100 mb-4 flex items-center gap-2">
-          <Icon name="pluscircle" className="w-5 h-5 text-pistach-400" />
-          Featured Flavors
-        </h3>
-        <p className="text-sm text-slate-500 mb-6">Edit your featured flavors displayed on the homepage</p>
-        
-        <div className="space-y-6">
-          {(formData.flavors?.items || []).map((flavor, idx) => (
-            <div key={idx} className="bg-slate-700/30 rounded-lg p-4 border border-slate-700/50">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-medium text-slate-400">Flavor {idx + 1}</span>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <label className="block text-xs text-slate-500 mb-1">Name</label>
-                  <input type="text" value={flavor.name || ''} onChange={(e) => {
-                    const newItems = [...(formData.flavors?.items || [])];
-                    newItems[idx] = { ...newItems[idx], name: e.target.value };
-                    setFormData(prev => ({ ...prev, flavors: { ...prev.flavors, items: newItems } }));
-                    setSaved(false);
-                  }} className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-slate-200 text-sm focus:outline-none focus:border-pistach-500" />
-                </div>
-                <div>
-                  <label className="block text-xs text-slate-500 mb-1">Description</label>
-                  <input type="text" value={flavor.description || ''} onChange={(e) => {
-                    const newItems = [...(formData.flavors?.items || [])];
-                    newItems[idx] = { ...newItems[idx], description: e.target.value };
-                    setFormData(prev => ({ ...prev, flavors: { ...prev.flavors, items: newItems } }));
-                    setSaved(false);
-                  }} className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-slate-200 text-sm focus:outline-none focus:border-pistach-500" />
-                </div>
-                <div>
-                  <label className="block text-xs text-slate-500 mb-1">Image URL</label>
-                  <input type="url" value={flavor.image || ''} onChange={(e) => {
-                    const newItems = [...(formData.flavors?.items || [])];
-                    newItems[idx] = { ...newItems[idx], image: e.target.value };
-                    setFormData(prev => ({ ...prev, flavors: { ...prev.flavors, items: newItems } }));
-                    setSaved(false);
-                  }} className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-slate-200 text-sm focus:outline-none focus:border-pistach-500" />
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
     </div>
   );
 }
@@ -484,7 +334,7 @@ function SettingsTab({ settings, onSave }) {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-xl font-bold text-slate-100">Settings</h2>
-          <p className="text-sm text-slate-500">Configure your website settings</p>
+          <p className="text-sm text-slate-500">General website configuration</p>
         </div>
         <div className="flex items-center gap-3">
           {saved && <span className="text-emerald-400 text-sm flex items-center gap-1"><Icon name="check" className="w-4 h-4" /> Saved!</span>}
@@ -524,10 +374,6 @@ export default function AdminDashboard() {
   const [inquiries, setInquiries] = useState([]);
   const [applications, setApplications] = useState([]);
   const [articles, setArticles] = useState([]);
-  const [content, setContent] = useState({
-    contact: { email: '', phone: '', address: '' },
-    flavors: { title: '', subtitle: '', description: '', items: [] },
-  });
   const [settings, setSettings] = useState({
     shopName: 'Pistacchio Utrecht',
     email: 'hello@pistacchio-utrecht.nl',
@@ -550,22 +396,17 @@ export default function AdminDashboard() {
         const { collection, getDocs, query, where, doc, getDoc } = await import('firebase/firestore');
         
         const inquiriesSnap = await getDocs(query(collection(db, 'inquiries'), where('type', '==', 'inquiry')));
-        setInquiries(inquiriesSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        setInquiries(inquiriesSnap.docs.map(d => ({ id: d.id, ...d.data() })));
 
         const appsSnap = await getDocs(query(collection(db, 'applications'), where('type', '==', 'job_application')));
-        setApplications(appsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        setApplications(appsSnap.docs.map(d => ({ id: d.id, ...d.data() })));
 
         const articlesSnap = await getDocs(collection(db, 'articles'));
-        setArticles(articlesSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-
-        const contentDoc = await getDoc(doc(db, 'website', 'content'));
-        if (contentDoc.exists()) { setContent(contentDoc.data()); }
+        setArticles(articlesSnap.docs.map(d => ({ id: d.id, ...d.data() })));
 
         const settingsDoc = await getDoc(doc(db, 'website', 'settings'));
         if (settingsDoc.exists()) { setSettings(settingsDoc.data()); }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
+      } catch (error) { console.error('Error fetching data:', error); }
       setLoading(false);
     };
 
@@ -604,31 +445,6 @@ export default function AdminDashboard() {
     } catch (error) { console.error('Error updating article:', error); }
   };
 
-  const handleSaveContent = async (newContent) => {
-    try {
-      const db = await getDb();
-      const { doc, setDoc } = await import('firebase/firestore');
-      await setDoc(doc(db, 'website', 'content'), newContent, { merge: true });
-      setContent(newContent);
-      
-      // Trigger ISR rebuild
-      if (typeof window !== 'undefined') {
-        try {
-          await fetch('/api/revalidate', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-              secret: 'revalidate-content-change',
-              paths: ['/'] 
-            }),
-          });
-        } catch (e) {
-          console.log('Revalidation skipped (Vercel will handle on next deploy)');
-        }
-      }
-    } catch (error) { console.error('Error saving content:', error); }
-  };
-
   const handleSaveSettings = async (newSettings) => {
     try {
       const db = await getDb();
@@ -649,11 +465,11 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 flex">
+    <div className="min-h-screen bg-slate-900">
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} user={user} onLogout={handleLogout} />
       
-      <main className="flex-1 p-8 overflow-auto">
-        <div className="max-w-6xl">
+      <main className="ml-64 p-8">
+        <div className="max-w-5xl">
           {activeTab === 'dashboard' && (
             <div>
               <h1 className="text-2xl font-bold text-slate-100 mb-8">Dashboard Overview</h1>
@@ -699,7 +515,6 @@ export default function AdminDashboard() {
           {activeTab === 'inquiries' && <InquiriesTab inquiries={inquiries} handleDelete={handleDelete} handleStatusChange={handleStatusChange} />}
           {activeTab === 'applications' && <ApplicationsTab applications={applications} handleDelete={handleDelete} handleStatusChange={handleStatusChange} />}
           {activeTab === 'articles' && <ArticlesTab articles={articles} handleDelete={handleDelete} handleTogglePublish={handleTogglePublish} />}
-          {activeTab === 'content' && <ContentTab content={content} onSave={handleSaveContent} />}
           {activeTab === 'settings' && <SettingsTab settings={settings} onSave={handleSaveSettings} />}
         </div>
       </main>
