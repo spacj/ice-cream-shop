@@ -1,204 +1,103 @@
-# Image Setup Guide
+# Image Setup Guide for Pistacchio Utrecht
 
-## Overview
+## Public Folder Structure
 
-This project uses **local image storage** for website images. No Firebase Storage or external image hosting required.
-
-## Image Directory Structure
+Place all your images in the `public/` folder:
 
 ```
 public/
 ├── images/
-│   ├── blog/           # Blog post images
-│   │   ├── article-1.jpg
-│   │   └── article-2.png
-│   ├── products/       # Product/gelato images
-│   │   ├── pistacchio-classico.jpg
-│   │   └── nocciola.jpg
-│   ├── team/           # Team member photos
-│   │   └── artisan.jpg
-│   └── general/        # General website images
-│       ├── hero-bg.jpg
-│       └── shop-interior.jpg
-└── logo.png            # Website logo
+│   ├── logo.png              # Main logo (white background)
+│   ├── logo-dark.png         # Logo for dark backgrounds
+│   ├── favicon.ico           # Site favicon (16x16, 32x32, 48x48)
+│   ├── og-image.jpg          # Social media preview (1200x630)
+│   │
+│   ├── hero/                 # Homepage hero images
+│   │   ├── hero-gelato.jpg
+│   │   ├── hero-interior.jpg
+│   │   └── hero-outdoor.jpg
+│   │
+│   ├── products/             # Gelato/flavor images
+│   │   ├── pistacchio.jpg
+│   │   ├── nocciola.jpg
+│   │   ├── cioccolato.jpg
+│   │   └── ...
+│   │
+│   ├── gallery/              # General gallery images
+│   │   ├── shop-front.jpg
+│   │   ├── interior-1.jpg
+│   │   └── ...
+│   │
+│   ├── team/                 # Team/staff photos
+│   │   └── ...
+│   │
+│   ├── blog/                 # Blog article images
+│   │   └── ...
+│   │
+│   └── placeholders/         # Placeholder images
+│       ├── product-placeholder.jpg
+│       └── article-placeholder.jpg
+│
+├── videos/
+│   ├── hero-gelato.mp4       # Hero background video
+│   └── gelato-making.mp4     # Process video
+│
+├── logo.png                  # Root logo copy
+└── favicon.ico              # Root favicon copy
 ```
-
-## How to Add Images
-
-### For Blog Posts
-
-You can use **either** of these methods:
-
-#### Method 1: External URLs (Recommended for quick setup)
-```javascript
-{
-  id: 'my-article',
-  title: 'My Article Title',
-  image: 'https://images.unsplash.com/photo-1234567890-abcdef123456?w=800&h=500&fit=crop&q=85',
-  // ... other fields
-}
-```
-
-**Free stock image sources:**
-- Unsplash: https://unsplash.com
-- Pexels: https://pexels.com
-- Pixabay: https://pixabay.com
-
-#### Method 2: Local Images (Better for brand consistency)
-1. Save your image to `public/images/blog/`
-2. Use the path in your article:
-```javascript
-{
-  id: 'my-article',
-  title: 'My Article Title',
-  image: '/images/blog/my-article.jpg',
-  // ... other fields
-}
-```
-
-### For Product Images
-
-1. Save images to `public/images/products/`
-2. Update the product data:
-```javascript
-{
-  name: 'Pistacchio Classico',
-  image: '/images/products/pistacchio-classico.jpg',
-  // ... other fields
-}
-```
-
-### For General Website Images
-
-1. Save images to `public/images/` (or subfolders)
-2. Use absolute paths from public:
-```javascript
-// In components
-<img src="/images/hero-bg.jpg" alt="Hero background" />
-
-// Or in Tailwind CSS (if needed)
-className="bg-[url('/images/hero-bg.jpg')]"
-```
-
-## Image Requirements
-
-### Recommended Formats
-- **JPG/JPEG**: Best for photos
-- **PNG**: Best for graphics with transparency
-- **WebP**: Best for web optimization (modern browsers)
-
-### Recommended Sizes
-
-| Image Type | Recommended Size | Aspect Ratio |
-|-----------|-----------------|--------------|
-| Blog Featured | 1200x630px | 1.91:1 |
-| Blog Thumbnail | 800x500px | 16:10 |
-| Product | 600x600px | 1:1 |
-| Team Photo | 400x400px | 1:1 |
-| Hero Background | 1920x1080px | 16:9 |
-| Logo | 200x200px | 1:1 |
-
-### File Size
-- Keep images under 500KB when possible
-- Use image compression tools:
-  - TinyPNG: https://tinypng.com
-  - Squoosh: https://squoosh.app
-  - ImageOptim: https://imageoptim.com
 
 ## Using Images in Code
 
-### In JSX Components
-```jsx
-// External URL
-<img 
-  src="https://images.unsplash.com/photo-1234567890" 
-  alt="Description"
-  className="w-full h-64 object-cover rounded-lg"
-/>
+### In JSX/Components:
 
-// Local Image
-<img 
-  src="/images/blog/my-photo.jpg" 
-  alt="Description"
-  className="w-full h-64 object-cover rounded-lg"
-/>
-```
-
-### In Next.js Image Component (Advanced)
 ```jsx
+// Local images from public folder
+<img src="/images/products/pistacchio.jpg" alt="Pistachio Gelato" />
+
+// With Next.js Image component
 import Image from 'next/image';
-
-<Image
-  src="/images/blog/my-photo.jpg"
-  alt="Description"
-  width={800}
-  height={500}
-  className="rounded-lg"
+<Image 
+  src="/images/products/pistacchio.jpg" 
+  alt="Pistachio Gelato" 
+  width={800} 
+  height={600}
+  priority // For above-the-fold images
 />
+
+// External images (Unsplash, etc.)
+<img src="https://images.unsplash.com/photo-xxx?w=800" alt="Gelato" />
 ```
 
-## Optimizing Images
+### Recommended Image Sizes:
 
-### 1. Compress Before Upload
-Use tools like TinyPNG or Squoosh to reduce file size without losing quality.
+| Image Type | Recommended Size | Aspect Ratio |
+|------------|------------------|--------------|
+| Hero/Background | 1920x1080 | 16:9 |
+| Product/Flavor | 800x800 | 1:1 |
+| Gallery | 1200x800 | 3:2 |
+| Blog Featured | 1200x630 | 1.91:1 |
+| Thumbnail | 400x300 | 4:3 |
+| Logo | 400x150 | ~3:1 |
 
-### 2. Use Appropriate Formats
-- Use JPG for photographs
-- Use PNG for graphics/logos
-- Consider WebP for better compression
+### Image Formats:
+- **Photos**: JPG (with 80% quality)
+- **Graphics/Icons**: PNG (with transparency)
+- **Animated**: WebP or GIF
+- **Favicon**: ICO format
 
-### 3. Lazy Loading
-All images in this project use lazy loading by default for better performance.
+## Adding New Images
 
-## Adding Images via Firebase (Optional)
+1. Save your image to the appropriate folder in `public/images/`
+2. Use the path `/images/folder/filename.jpg` in your code
+3. For optimized loading, resize images before uploading
 
-If you want to store images in Firebase Storage later:
+## External Image Sources (for development)
 
-1. Enable Firebase Storage in your Firebase Console
-2. Upload images to Firebase Storage
-3. Get the public URL
-4. Use it as an external URL in your code
+You can use Unsplash for placeholder images during development:
 
-However, this is **optional** - local images in `public/images/` work perfectly fine.
+```jsx
+// Unsplash URL format
+https://images.unsplash.com/photo-{id}?w=800&h=800&fit=crop&q=80
 
-## Troubleshooting
-
-### Image Not Loading?
-1. Check the path is correct (start with `/`)
-2. Ensure file exists in `public/images/`
-3. Check browser console for 404 errors
-4. Verify file extension matches (jpg vs jpeg)
-
-### Image Too Large?
-1. Compress using TinyPNG or Squoosh
-2. Resize to recommended dimensions
-3. Convert to WebP format
-
-### External Image Not Loading?
-1. Check URL is correct and complete
-2. Ensure CORS allows embedding (most stock sites do)
-3. Try downloading and using locally instead
-
-## Quick Start
-
-To get started quickly with placeholder images:
-
-1. **Use Unsplash URLs** - Already configured in sample data
-2. **Or download sample images** to `public/images/`
-3. **Update paths** in your data files
-
-Example with Unsplash:
-```javascript
-// Just copy the image URL from Unsplash
-image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&h=600&fit=crop&q=85'
+// Find images at: https://unsplash.com/s/photos/gelato
 ```
-
-The `?w=600&h=600&fit=crop&q=85` parameters:
-- `w=600`: Width 600px
-- `h=600`: Height 600px
-- `fit=crop`: Crop to fit dimensions
-- `q=85`: Quality 85%
-
----
-
-**For help or questions, check the main README or open an issue.**
