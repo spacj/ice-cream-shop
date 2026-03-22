@@ -2,12 +2,10 @@
 
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { collection, query, where, getDocs } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { getDb } from '@/lib/firebase';
 import Link from 'next/link';
 import { FadeInOnScroll } from '@/lib/scroll-animations';
 
-// Sample articles to display when Firebase is empty or for preview
 const SAMPLE_ARTICLES = [
   {
     id: 'sicilian-pistachio',
@@ -32,7 +30,7 @@ const SAMPLE_ARTICLES = [
   {
     id: 'pistacchio-season',
     title: 'Inside Our Seasonal Pistachio Selection',
-    excerpt: 'Learn about our seasonal pistachio sourcing, harvest cycles, and how we ensure consistency year-round in a production setting.',
+    excerpt: 'Learn about our seasonal pistachio sourcing, harvest cycles, and how we ensure consistency year-round.',
     image: 'https://images.unsplash.com/photo-1629866066033-28d6af2d51b6?w=800&h=500&fit=crop&q=85',
     category: 'Craftsmanship',
     date: 'February 28, 2025',
@@ -62,7 +60,7 @@ const SAMPLE_ARTICLES = [
   {
     id: 'farm-visit',
     title: 'Farm Visit: Bronte Sicily',
-    excerpt: 'Our annual journey to Sicily to meet the farmers who grow the pistachio nuts we treasure and the relationships we build.',
+    excerpt: 'Our annual journey to Sicily to meet the farmers who grow the pistachio nuts we treasure.',
     image: 'https://images.unsplash.com/photo-1629866066033-28d6af2d51b6?w=800&h=500&fit=crop&q=85',
     category: 'Stories',
     date: 'February 8, 2025',
@@ -79,8 +77,9 @@ export default function Blog() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        // Only fetch from Firebase if it's initialized
+        const db = await getDb();
         if (db) {
+          const { collection, query, where, getDocs } = await import('firebase/firestore');
           const q = query(collection(db, 'articles'), where('published', '==', true));
           const snapshot = await getDocs(q);
           const fbArticles = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -90,7 +89,6 @@ export default function Blog() {
         }
       } catch (error) {
         console.error('Error fetching articles:', error);
-        // Use sample articles on error
       }
       setLoading(false);
     };
@@ -118,7 +116,6 @@ export default function Blog() {
 
   return (
     <div className="min-h-screen pt-32 pb-20 bg-cream">
-      {/* ===== HERO SECTION ===== */}
       <section className="px-4 mb-20">
         <div className="max-w-4xl mx-auto">
           <FadeInOnScroll>
@@ -136,14 +133,13 @@ export default function Blog() {
               </h1>
               <div className="w-20 h-1 bg-caramel mx-auto mb-8"></div>
               <p className="text-xl text-grey-dark max-w-2xl mx-auto">
-                Explore the art, science, and passion behind premium Sicilian pistachio gelato. From sourcing to tasting, discover what makes Pistacchio special.
+                Explore the art, science, and passion behind premium Sicilian pistachio gelato.
               </p>
             </motion.div>
           </FadeInOnScroll>
         </div>
       </section>
 
-      {/* ===== CATEGORY FILTER ===== */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -167,7 +163,6 @@ export default function Blog() {
         ))}
       </motion.div>
 
-      {/* ===== FEATURED ARTICLES ===== */}
       {featuredArticles.length > 0 && (
         <section className="px-4 mb-20">
           <div className="max-w-7xl mx-auto">
@@ -182,16 +177,12 @@ export default function Blog() {
               variants={containerVariants}
             >
               {featuredArticles.slice(0, 2).map((article) => (
-                <motion.div
-                  key={article.id}
-                  variants={itemVariants}
-                >
+                <motion.div key={article.id} variants={itemVariants}>
                   <Link href={`/blog/${article.id}`}>
                     <motion.div
                       className="group h-full rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all bg-white flex flex-col"
                       whileHover={{ y: -8 }}
                     >
-                      {/* Image */}
                       <div className="relative h-64 overflow-hidden bg-grey-light">
                         <img
                           src={article.image}
@@ -201,7 +192,6 @@ export default function Blog() {
                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
                       </div>
 
-                      {/* Content */}
                       <div className="p-8 flex flex-col justify-between flex-1">
                         <div>
                           <div className="flex items-center gap-2 mb-4">
@@ -237,7 +227,6 @@ export default function Blog() {
         </section>
       )}
 
-      {/* ===== ALL ARTICLES GRID ===== */}
       {loading ? (
         <div className="text-center text-grey-light py-20">
           <div className="animate-pulse">Loading articles...</div>
@@ -267,16 +256,12 @@ export default function Blog() {
               variants={containerVariants}
             >
               {regularArticles.map((article) => (
-                <motion.div
-                  key={article.id}
-                  variants={itemVariants}
-                >
+                <motion.div key={article.id} variants={itemVariants}>
                   <Link href={`/blog/${article.id}`}>
                     <motion.div
                       className="group h-full rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all bg-white flex flex-col"
                       whileHover={{ y: -8 }}
                     >
-                      {/* Image */}
                       {article.image && (
                         <div className="relative h-48 overflow-hidden bg-grey-light">
                           <img
@@ -287,7 +272,6 @@ export default function Blog() {
                         </div>
                       )}
 
-                      {/* Content */}
                       <div className="p-6 flex flex-col justify-between flex-1">
                         <div>
                           <div className="flex items-center gap-2 mb-3">
@@ -323,7 +307,6 @@ export default function Blog() {
         </section>
       )}
 
-      {/* ===== NEWSLETTER CTA ===== */}
       <section className="px-4 mt-32">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -3,8 +3,7 @@
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { getDb } from '@/lib/firebase';
 import { LocationSection, ReviewsSection } from '@/lib/location-reviews';
 import { FadeInOnScroll } from '@/lib/scroll-animations';
 import { formValidationRules, sanitizeFormData } from '@/lib/validation';
@@ -18,12 +17,14 @@ export default function Contact() {
     try {
       const sanitizedData = sanitizeFormData(data);
       
+      const db = await getDb();
       if (!db) {
         setSubmitStatus('error');
         console.error('Firebase not initialized');
         return;
       }
       
+      const { collection, addDoc, serverTimestamp } = await import('firebase/firestore');
       await addDoc(collection(db, 'inquiries'), {
         ...sanitizedData,
         type: 'inquiry',
@@ -41,7 +42,6 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-cream via-white to-pistach-50 pt-32">
-      {/* Hero */}
       <section className="py-20 px-4 mb-20">
         <div className="max-w-4xl mx-auto">
           <FadeInOnScroll>
@@ -55,10 +55,8 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Location Section */}
       <LocationSection />
 
-      {/* Contact Form */}
       <section className="py-20 px-4">
         <div className="max-w-2xl mx-auto">
           <FadeInOnScroll>
@@ -86,7 +84,6 @@ export default function Contact() {
               )}
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                {/* Name */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -111,7 +108,6 @@ export default function Contact() {
                   )}
                 </motion.div>
 
-                {/* Email */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -138,7 +134,6 @@ export default function Contact() {
                   )}
                 </motion.div>
 
-                {/* Subject */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -164,7 +159,6 @@ export default function Contact() {
                   )}
                 </motion.div>
 
-                {/* Message */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -191,7 +185,6 @@ export default function Contact() {
                   )}
                 </motion.div>
 
-                {/* Submit Button */}
                 <motion.button
                   type="submit"
                   disabled={isSubmitting}
@@ -219,39 +212,16 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Reviews */}
       <ReviewsSection 
         googleRating={4.8}
         reviewCount={246}
       />
 
-      {/* Follow Us Section */}
       <section className="py-20 px-4 bg-pistach-50">
         <div className="max-w-4xl mx-auto text-center">
           <FadeInOnScroll>
             <h2 className="font-serif text-4xl text-pistach-600 mb-8">Follow Our Journey</h2>
             <p className="text-lg text-grey-dark mb-12">Connect with us on social media for daily updates and exclusive content</p>
-            
-            <div className="flex justify-center gap-6">
-              {[
-                { icon: '📷', name: 'Instagram' },
-                { icon: '👍', name: 'Facebook' },
-                { icon: '𝕏', name: 'Twitter' },
-              ].map((social) => (
-                <motion.button
-                  key={social.name}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  whileHover={{ scale: 1.2 }}
-                  whileTap={{ scale: 0.9 }}
-                  viewport={{ once: true }}
-                  className="text-5xl hover:opacity-80 transition-opacity"
-                  title={social.name}
-                >
-                  {social.icon}
-                </motion.button>
-              ))}
-            </div>
           </FadeInOnScroll>
         </div>
       </section>

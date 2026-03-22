@@ -2,10 +2,8 @@
 
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { getDb } from '@/lib/firebase';
 import Link from 'next/link';
-import { formatDistanceToNow } from 'date-fns';
 
 export default function ArticleDetail({ params }) {
   const [article, setArticle] = useState(null);
@@ -15,6 +13,12 @@ export default function ArticleDetail({ params }) {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
+        const db = await getDb();
+        if (!db) {
+          throw new Error('Firebase not initialized');
+        }
+        
+        const { doc, getDoc } = await import('firebase/firestore');
         const docSnap = await getDoc(doc(db, 'articles', params.id));
         if (docSnap.exists()) {
           setArticle({ id: docSnap.id, ...docSnap.data() });
@@ -62,7 +66,6 @@ export default function ArticleDetail({ params }) {
 
   return (
     <div className="min-h-screen pt-24 pb-20">
-      {/* Hero with image */}
       {article.image && (
         <motion.div
           initial={{ opacity: 0, y: -30 }}
@@ -77,14 +80,12 @@ export default function ArticleDetail({ params }) {
         </motion.div>
       )}
 
-      {/* Content */}
       <motion.article
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
         className="max-w-3xl mx-auto px-4 py-12"
       >
-        {/* Header */}
         <div className="mb-8">
           <Link href="/blog" className="text-ice-blue hover:text-ice-gold text-sm mb-4 inline-block">
             ← Back to Blog
@@ -99,15 +100,13 @@ export default function ArticleDetail({ params }) {
             {article.title}
           </motion.h1>
 
-          {/* Meta */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
             className="flex gap-4 text-gray-400 text-sm flex-wrap"
           >
-            <span>📅 {article.createdAt?.toDate?.()?.toLocaleDateString?.() || 'Recent'}</span>
-            <span>⏱️ {formatDistanceToNow(new Date(article.createdAt?.seconds * 1000 || Date.now()), { addSuffix: true })}</span>
+            <span>{article.createdAt?.toDate?.()?.toLocaleDateString?.() || 'Recent'}</span>
             <span className={`px-3 py-1 rounded-full ${
               article.published ? 'bg-green-500/20 text-green-300' : 'bg-gray-500/20 text-gray-300'
             }`}>
@@ -116,7 +115,6 @@ export default function ArticleDetail({ params }) {
           </motion.div>
         </div>
 
-        {/* Excerpt */}
         {article.excerpt && (
           <motion.p
             initial={{ opacity: 0 }}
@@ -128,7 +126,6 @@ export default function ArticleDetail({ params }) {
           </motion.p>
         )}
 
-        {/* Body */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -140,7 +137,6 @@ export default function ArticleDetail({ params }) {
           </div>
         </motion.div>
 
-        {/* Related Articles */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}

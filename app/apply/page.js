@@ -3,8 +3,7 @@
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { getDb } from '@/lib/firebase';
 
 const POSITIONS = [
   'Ice Cream Maker',
@@ -20,9 +19,11 @@ export default function Apply() {
 
   const onSubmit = async (data) => {
     try {
+      const db = await getDb();
       if (!db) {
         throw new Error('Firebase not initialized');
       }
+      const { collection, addDoc, serverTimestamp } = await import('firebase/firestore');
       await addDoc(collection(db, 'applications'), {
         ...data,
         type: 'job_application',
@@ -54,7 +55,6 @@ export default function Apply() {
   return (
     <div className="min-h-screen pt-24 pb-20 px-4">
       <div className="max-w-3xl mx-auto">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -69,7 +69,6 @@ export default function Apply() {
           </p>
         </motion.div>
 
-        {/* Open Positions */}
         <motion.div
           initial="hidden"
           animate="visible"
@@ -93,7 +92,6 @@ export default function Apply() {
           </div>
         </motion.div>
 
-        {/* Application Form */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -123,7 +121,6 @@ export default function Apply() {
           )}
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            {/* Full Name */}
             <motion.div variants={itemVariants}>
               <label className="block text-sm font-semibold mb-2 text-gray-300">Full Name</label>
               <input
@@ -135,7 +132,6 @@ export default function Apply() {
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Email */}
               <motion.div variants={itemVariants}>
                 <label className="block text-sm font-semibold mb-2 text-gray-300">Email</label>
                 <input
@@ -147,7 +143,6 @@ export default function Apply() {
                 {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>}
               </motion.div>
 
-              {/* Phone */}
               <motion.div variants={itemVariants}>
                 <label className="block text-sm font-semibold mb-2 text-gray-300">Phone</label>
                 <input
@@ -159,7 +154,6 @@ export default function Apply() {
               </motion.div>
             </div>
 
-            {/* Position Applied For */}
             <motion.div variants={itemVariants}>
               <label className="block text-sm font-semibold mb-2 text-gray-300">Position Applied For</label>
               <select
@@ -174,7 +168,6 @@ export default function Apply() {
               {errors.position && <p className="text-red-400 text-sm mt-1">{errors.position.message}</p>}
             </motion.div>
 
-            {/* Experience */}
             <motion.div variants={itemVariants}>
               <label className="block text-sm font-semibold mb-2 text-gray-300">Years of Experience</label>
               <input
@@ -187,7 +180,6 @@ export default function Apply() {
               {errors.experience && <p className="text-red-400 text-sm mt-1">{errors.experience.message}</p>}
             </motion.div>
 
-            {/* Cover Letter */}
             <motion.div variants={itemVariants}>
               <label className="block text-sm font-semibold mb-2 text-gray-300">Why do you want to join us?</label>
               <textarea
@@ -199,7 +191,6 @@ export default function Apply() {
               {errors.coverLetter && <p className="text-red-400 text-sm mt-1">{errors.coverLetter.message}</p>}
             </motion.div>
 
-            {/* Submit Button */}
             <motion.div variants={itemVariants}>
               <motion.button
                 type="submit"
