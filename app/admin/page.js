@@ -409,81 +409,100 @@ function ContentTab({ content, onSave }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <div className="bg-slate-800 border border-slate-700/50 rounded-xl p-6">
-          <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
-            <Icon name="mail" className="w-5 h-5 text-pistach-400" />
-            Contact Information
-          </h3>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-400 mb-1">Email</label>
-              <input 
-                type="email" 
-                value={formData.contact?.email || ''} 
-                onChange={(e) => handleChange('contact', 'email', e.target.value)} 
-                className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2.5 text-slate-200 focus:outline-none focus:border-pistach-500" 
-              />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <div className="bg-slate-800 border border-slate-700/50 rounded-xl p-6">
+              <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
+                <Icon name="mail" className="w-5 h-5 text-pistach-400" />
+                Contact Information
+              </h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-400 mb-1">Email</label>
+                  <input 
+                    type="email" 
+                    value={formData.contact?.email || ''} 
+                    onChange={(e) => handleChange('contact', 'email', e.target.value)} 
+                    className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2.5 text-slate-200 focus:outline-none focus:border-pistach-500" 
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-400 mb-1">Phone</label>
+                  <input 
+                    type="tel" 
+                    value={formData.contact?.phone || ''} 
+                    onChange={(e) => handleChange('contact', 'phone', e.target.value)} 
+                    className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2.5 text-sale-200 focus:outline-none focus:border-pistach-500" 
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-400 mb-1">Address</label>
+                  <textarea 
+                    value={formData.contact?.address || ''} 
+                    onChange={(e) => handleChange('contact', 'address', e.target.value)} 
+                    rows={2} 
+                    className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:border-pistach-500 resize-none" 
+                  />
+                </div>
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-400 mb-1">Phone</label>
-              <input 
-                type="tel" 
-                value={formData.contact?.phone || ''} 
-                onChange={(e) => handleChange('contact', 'phone', e.target.value)} 
-                className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2.5 text-slate-200 focus:outline-none focus:border-pistach-500" 
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-400 mb-1">Address</label>
-              <textarea 
-                value={formData.contact?.address || ''} 
-                onChange={(e) => handleChange('contact', 'address', e.target.value)} 
-                rows={2} 
-                className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:border-pistach-500 resize-none" 
-              />
+
+            <div className="bg-slate-800 border border-slate-700/50 rounded-xl p-6">
+              <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
+                <Icon name="edit" className="w-5 h-5 text-pistach-400" />
+                Flavors Section
+              </h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-400 mb-1">Section Title</label>
+                  <input 
+                    type="text" 
+                    value={formData.flavors?.title || ''} 
+                    onChange={(e) => handleChange('flavors', 'title', e.target.value)} 
+                    className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2.5 text-slate-200 text-sm focus:outline-none focus:border-pistach-500" 
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-400 mb-1">Section Subtitle</label>
+                  <input 
+                    type="text" 
+                    value={formData.flavors?.subtitle || ''} 
+                    onChange={(e) => handleChange('flavors', 'subtitle', e.target.value)} 
+                    className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2.5 text-slate-200 text-sm focus:outline-none focus:border-pistach-500" 
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-400 mb-1">Description</label>
+                  <textarea 
+                    value={formData.flavors?.description || ''} 
+                    onChange={(e) => handleChange('flavors', 'description', e.target.value)} 
+                    rows={3} 
+                    className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2.5 text-slate-200 text-sm focus:outline-none focus:border-pistach-500 resize-none" 
+                  />
+                </div>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="bg-slate-800 border border-slate-700/50 rounded-xl p-6">
-          <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
-            <Icon name="edit" className="w-5 h-5 text-pistach-400" />
-            Flavors Section
-          </h3>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-400 mb-1">Section Title</label>
-              <input 
-                type="text" 
-                value={formData.flavors?.title || ''} 
-                onChange={(e) => handleChange('flavors', 'title', e.target.value)} 
-                className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2.5 text-slate-200 text-sm focus:outline-none focus:border-pistach-500" 
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-400 mb-1">Section Subtitle</label>
-              <input 
-                type="text" 
-                value={formData.flavors?.subtitle || ''} 
-                onChange={(e) => handleChange('flavors', 'subtitle', e.target.value)} 
-                className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2.5 text-slate-200 text-sm focus:outline-none focus:border-pistach-500" 
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-400 mb-1">Description</label>
-              <textarea 
-                value={formData.flavors?.description || ''} 
-                onChange={(e) => handleChange('flavors', 'description', e.target.value)} 
-                rows={3} 
-                className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2.5 text-slate-200 text-sm focus:outline-none focus:border-pistach-500 resize-none" 
-              />
+          <div className="bg-slate-800 border border-slate-700/50 rounded-xl p-6">
+            <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
+              <Icon name="alert-triangle" className="w-5 h-5 text-pistach-400" />
+              Allergens Information
+            </h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-400 mb-1">Allergens Description</label>
+                <textarea 
+                  value={formData.allergens || ''} 
+                  onChange={(e) => handleChange('allergens', '', e.target.value)} 
+                  rows={4} 
+                  className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:border-pistach-500 resize-none"
+                  placeholder="List any allergens present (e.g., contains milk, nuts, gluten)..."
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div className="bg-slate-800 border border-slate-700/50 rounded-xl p-6">
+          <div className="bg-slate-800 border border-slate-700/50 rounded-xl p-6">
         <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
           <Icon name="pluscircle" className="w-5 h-5 text-pistach-400" />
           Featured Flavors
@@ -686,6 +705,7 @@ export default function AdminDashboard() {
   const [content, setContent] = useState({
     contact: { email: '', phone: '', address: '' },
     flavors: { title: 'Our Signature Collection', subtitle: 'Handcrafted Flavors', description: 'Explore our premium gelato flavors', items: [] },
+    allergens: '',
   });
   const [settings, setSettings] = useState({
     shopName: 'Pistacchio Utrecht',

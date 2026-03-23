@@ -27,7 +27,8 @@ export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [siteContent, setSiteContent] = useState({
     contact: { email: 'hello@pistacchio-utrecht.nl', phone: '+31 (0)6 1234 5678', address: 'Korte Jansstraat 23\n3512 GN Utrecht, Netherlands' },
-    flavors: { title: 'Our Signature Collection', subtitle: 'Handcrafted Flavors', description: 'Explore our premium gelato flavors made from the finest Sicilian pistachio', items: [] }
+    flavors: { title: 'Our Signature Collection', subtitle: 'Handcrafted Flavors', description: 'Explore our premium gelato flavors made from the finest Sicilian pistachio', items: [] },
+    allergens: ''
   });
   const [contentLoading, setContentLoading] = useState(true);
 
@@ -35,28 +36,29 @@ export default function Home() {
     setIsLoaded(true);
   }, []);
 
-  useEffect(() => {
-    const fetchContent = async () => {
-      try {
-        const db = await getDb();
-        if (!db) { setContentLoading(false); return; }
-        const { doc, getDoc } = await import('firebase/firestore');
-        const contentSnap = await getDoc(doc(db, 'website', 'content'));
-        if (contentSnap.exists()) {
-          setSiteContent(prev => ({
-            ...prev,
-            ...contentSnap.data(),
-            contact: { ...prev.contact, ...contentSnap.data().contact },
-            flavors: { ...prev.flavors, ...contentSnap.data().flavors }
-          }));
+    useEffect(() => {
+      const fetchContent = async () => {
+        try {
+          const db = await getDb();
+          if (!db) { setContentLoading(false); return; }
+          const { doc, getDoc } = await import('firebase/firestore');
+          const contentSnap = await getDoc(doc(db, 'website', 'content'));
+          if (contentSnap.exists()) {
+            setSiteContent(prev => ({
+              ...prev,
+              ...contentSnap.data(),
+              contact: { ...prev.contact, ...contentSnap.data().contact },
+              flavors: { ...prev.flavors, ...contentSnap.data().flavors },
+              allergens: contentSnap.data().allergens || ''
+            }));
+          }
+        } catch (error) {
+          console.error('Error fetching content:', error);
         }
-      } catch (error) {
-        console.error('Error fetching content:', error);
-      }
-      setContentLoading(false);
-    };
-    fetchContent();
-  }, []);
+        setContentLoading(false);
+      };
+      fetchContent();
+    }, []);
 
   return (
     <div className="overflow-hidden bg-cream">
@@ -458,19 +460,28 @@ export default function Home() {
                 </p>
               </div>
 
-              <div>
-                <h3 className="text-sm tracking-widest uppercase text-pistach-500 font-semibold mb-2">
-                  Contact
-                </h3>
-                <p className="text-grey-dark">
-                  <a href={`tel:${siteContent.contact?.phone?.replace(/\s/g, '')}`} className="hover:text-pistach-500 transition-colors">
-                    {siteContent.contact?.phone || '+31 (0)6 1234 5678'}
-                  </a><br/>
-                  <a href={`mailto:${siteContent.contact?.email}`} className="hover:text-pistach-500 transition-colors">
-                    {siteContent.contact?.email || 'hello@pistacchio-utrecht.nl'}
-                  </a>
-                </p>
-              </div>
+               <div>
+                 <h3 className="text-sm tracking-widest uppercase text-pistach-500 font-semibold mb-2">
+                   Contact
+                 </h3>
+                 <p className="text-grey-dark">
+                   <a href={`tel:${siteContent.contact?.phone?.replace(/\s/g, '')}`} className="hover:text-pistach-500 transition-colors">
+                     {siteContent.contact?.phone || '+31 (0)6 1234 5678'}
+                   </a><br/>
+                   <a href={`mailto:${siteContent.contact?.email}`} className="hover:text-pistach-500 transition-colors">
+                     {siteContent.contact?.email || 'hello@pistacchio-utrecht.nl'}
+                   </a>
+                 </p>
+               </div>
+
+               <div>
+                 <h3 className="text-sm tracking-widest uppercase text-pistach-500 font-semibold mb-2">
+                   Allergens Information
+                 </h3>
+                 <p className="text-grey-dark whitespace-pre-line">
+                   {siteContent.allergens || 'Our gelato is made with milk and may contain traces of nuts. Please inform our staff of any allergies.'}
+                 </p>
+               </div>
 
                 <motion.a
                   href="https://www.google.com/maps/search/Korte+Jansstraat+23+Utrecht"
