@@ -94,35 +94,37 @@ export default function ManageBlog() {
     }
   };
 
+  if (!user || !isAdmin) {
+    return null;
+  }
+
   return (
-    <div className="min-h-screen pt-24 pb-20 px-4">
+    <div className="min-h-screen bg-slate-900 p-8">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: -30 }}
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8 flex items-center justify-between"
         >
-          <h1 className="font-display text-4xl md:text-5xl text-gradient">
+          <h1 className="text-3xl font-bold text-slate-100">
             Manage Blog
           </h1>
           <div className="flex gap-3">
-            <Link href="/admin/blog/new" className="px-6 py-3 gradient-primary rounded-lg text-white font-semibold hover-lift">
+            <Link href="/admin/blog/new" className="px-4 py-2 bg-pistach-600 text-white rounded-lg hover:bg-pistach-500 transition-colors">
               + New Article
             </Link>
-            <Link href="/admin" className="px-6 py-3 border border-ice-pink text-ice-pink rounded-lg hover:bg-ice-pink hover:text-white transition-colors">
+            <Link href="/admin" className="px-4 py-2 border border-slate-600 text-slate-300 rounded-lg hover:bg-slate-800 transition-colors">
               Back to Dashboard
             </Link>
           </div>
         </motion.div>
 
-        {/* Articles List */}
         {loading ? (
-          <p className="text-gray-400">Loading articles...</p>
+          <p className="text-slate-400">Loading articles...</p>
         ) : articles.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-400 mb-6">No articles yet. Create your first one!</p>
-            <Link href="/admin/blog/new" className="inline-block px-6 py-3 gradient-primary rounded-lg text-white font-semibold hover-lift">
+          <div className="text-center py-12 bg-slate-800/50 rounded-xl border border-slate-700/50">
+            <p className="text-slate-400 mb-6">No articles yet. Create your first one!</p>
+            <Link href="/admin/blog/new" className="inline-block px-6 py-3 bg-pistach-600 text-white rounded-lg hover:bg-pistach-500 transition-colors">
               Create Article
             </Link>
           </div>
@@ -141,54 +143,54 @@ export default function ManageBlog() {
                 key={article.id}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="glass rounded-xl overflow-hidden"
+                className="bg-slate-800/80 border border-slate-700/50 rounded-xl overflow-hidden"
               >
                 {editingId === article.id ? (
                   <div className="p-6 space-y-4">
                     <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-300">Title</label>
+                      <label className="block text-sm font-medium text-slate-400 mb-2">Title</label>
                       <input
                         value={editData.title || ''}
                         onChange={(e) => setEditData({ ...editData, title: e.target.value })}
-                        className="w-full bg-dark/50 border border-ice-pink/20 rounded-lg px-4 py-2 text-white"
+                        className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-slate-200 focus:outline-none focus:border-pistach-500"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-300">Excerpt</label>
+                      <label className="block text-sm font-medium text-slate-400 mb-2">Excerpt</label>
                       <textarea
                         value={editData.excerpt || ''}
                         onChange={(e) => setEditData({ ...editData, excerpt: e.target.value })}
                         rows={2}
-                        className="w-full bg-dark/50 border border-ice-pink/20 rounded-lg px-4 py-2 text-white resize-none"
+                        className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-slate-200 resize-none focus:outline-none focus:border-pistach-500"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-300">Image URL</label>
+                      <label className="block text-sm font-medium text-slate-400 mb-2">Image URL</label>
                       <input
                         value={editData.image || ''}
                         onChange={(e) => setEditData({ ...editData, image: e.target.value })}
-                        className="w-full bg-dark/50 border border-ice-pink/20 rounded-lg px-4 py-2 text-white"
+                        className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-slate-200 focus:outline-none focus:border-pistach-500"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-300">Content</label>
+                      <label className="block text-sm font-medium text-slate-400 mb-2">Content</label>
                       <textarea
                         value={editData.content || ''}
                         onChange={(e) => setEditData({ ...editData, content: e.target.value })}
                         rows={8}
-                        className="w-full bg-dark/50 border border-ice-pink/20 rounded-lg px-4 py-2 text-white resize-none"
+                        className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-slate-200 resize-none focus:outline-none focus:border-pistach-500"
                       />
                     </div>
                     <div className="flex gap-3">
                       <button
                         onClick={() => handleEditSave(article.id)}
-                        className="px-4 py-2 gradient-primary rounded-lg text-white font-semibold"
+                        className="px-4 py-2 bg-pistach-600 text-white rounded-lg hover:bg-pistach-500 transition-colors"
                       >
                         Save Changes
                       </button>
                       <button
                         onClick={() => setEditingId(null)}
-                        className="px-4 py-2 border border-gray-500 text-gray-400 rounded-lg"
+                        className="px-4 py-2 border border-slate-600 text-slate-400 rounded-lg hover:bg-slate-700 transition-colors"
                       >
                         Cancel
                       </button>
@@ -205,34 +207,34 @@ export default function ManageBlog() {
                     )}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-4 mb-2">
-                        <h3 className="font-display text-xl text-white truncate">{article.title}</h3>
+                        <h3 className="text-xl font-semibold text-slate-100 truncate">{article.title}</h3>
                         <div className="flex gap-2 flex-shrink-0">
                           <button
                             onClick={() => handleTogglePublish(article.id, article.published)}
-                            className={`px-3 py-1 rounded text-sm font-semibold transition-colors ${
+                            className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
                               article.published
-                                ? 'bg-green-500/20 text-green-300 hover:bg-green-500/30'
-                                : 'bg-gray-500/20 text-gray-300 hover:bg-gray-500/30'
+                                ? 'bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30'
+                                : 'bg-slate-600/50 text-slate-400 hover:bg-slate-600'
                             }`}
                           >
                             {article.published ? '✓ Published' : '○ Draft'}
                           </button>
                           <button
                             onClick={() => handleEditClick(article)}
-                            className="px-3 py-1 text-ice-blue hover:text-ice-gold rounded text-sm"
+                            className="px-3 py-1 text-pistach-400 hover:text-pistach-300 rounded text-sm transition-colors"
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => handleDelete(article.id)}
-                            className="px-3 py-1 text-red-400 hover:text-red-300 rounded text-sm"
+                            className="px-3 py-1 text-red-400 hover:text-red-300 rounded text-sm transition-colors"
                           >
                             Delete
                           </button>
                         </div>
                       </div>
-                      <p className="text-gray-400 text-sm mb-3 line-clamp-2">{article.excerpt}</p>
-                      <p className="text-gray-500 text-xs">
+                      <p className="text-slate-400 text-sm mb-3 line-clamp-2">{article.excerpt}</p>
+                      <p className="text-slate-500 text-xs">
                         {article.createdAt?.toDate?.()?.toLocaleDateString?.() || 'Recent'}
                       </p>
                     </div>

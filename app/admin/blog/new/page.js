@@ -66,34 +66,38 @@ export default function CreateBlogPost() {
     }
   };
 
+  if (!user || !isAdmin) {
+    return null;
+  }
+
   return (
-    <div className="min-h-screen pt-24 pb-20 px-4">
+    <div className="min-h-screen bg-slate-900 p-8">
       <div className="max-w-4xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: -30 }}
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8 flex items-center justify-between"
         >
-          <h1 className="font-display text-4xl md:text-5xl text-gradient">
+          <h1 className="text-3xl font-bold text-slate-100">
             Create Blog Post
           </h1>
-          <Link href="/admin" className="text-ice-pink hover:text-ice-gold">
+          <Link href="/admin" className="text-pistach-400 hover:text-pistach-300 transition-colors">
             ← Back to Dashboard
           </Link>
         </motion.div>
 
         <motion.form
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+          transition={{ delay: 0.1 }}
           onSubmit={handleSubmit}
-          className="glass rounded-3xl p-8 md:p-12 space-y-6"
+          className="bg-slate-800/80 border border-slate-700/50 rounded-xl p-6 md:p-8 space-y-6"
         >
           {submitStatus === 'success' && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="p-4 bg-green-500/20 border border-green-500/50 rounded-lg text-green-200"
+              className="p-4 bg-emerald-500/20 border border-emerald-500/50 rounded-lg text-emerald-200"
             >
               ✓ Article created successfully! Redirecting...
             </motion.div>
@@ -110,7 +114,7 @@ export default function CreateBlogPost() {
           )}
 
           <div>
-            <label className="block text-sm font-semibold mb-2 text-gray-300">
+            <label className="block text-sm font-medium text-slate-400 mb-2">
               Article Title
             </label>
             <input
@@ -119,13 +123,13 @@ export default function CreateBlogPost() {
               value={formData.title}
               onChange={handleInputChange}
               required
-              className="w-full bg-dark/50 border border-ice-pink/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-ice-pink transition-colors text-lg"
+              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:border-pistach-500 transition-colors text-lg"
               placeholder="Your article title..."
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold mb-2 text-gray-300">
+            <label className="block text-sm font-medium text-slate-400 mb-2">
               Excerpt (preview text)
             </label>
             <textarea
@@ -133,13 +137,13 @@ export default function CreateBlogPost() {
               value={formData.excerpt}
               onChange={handleInputChange}
               rows={2}
-              className="w-full bg-dark/50 border border-ice-pink/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-ice-pink transition-colors resize-none"
+              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:border-pistach-500 transition-colors resize-none"
               placeholder="Brief summary of your article..."
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold mb-2 text-gray-300">
+            <label className="block text-sm font-medium text-slate-400 mb-2">
               Featured Image URL
             </label>
             <input
@@ -147,18 +151,18 @@ export default function CreateBlogPost() {
               name="image"
               value={formData.image}
               onChange={handleInputChange}
-              className="w-full bg-dark/50 border border-ice-pink/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-ice-pink transition-colors"
+              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:border-pistach-500 transition-colors"
               placeholder="https://example.com/image.jpg"
             />
             {formData.image && (
-              <div className="mt-4 rounded-lg overflow-hidden border border-ice-pink/20">
+              <div className="mt-4 rounded-lg overflow-hidden border border-slate-600">
                 <img src={formData.image} alt="Preview" className="w-full h-48 object-cover" />
               </div>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-semibold mb-2 text-gray-300">
+            <label className="block text-sm font-medium text-slate-400 mb-2">
               Article Content
             </label>
             <textarea
@@ -167,7 +171,7 @@ export default function CreateBlogPost() {
               onChange={handleInputChange}
               required
               rows={12}
-              className="w-full bg-dark/50 border border-ice-pink/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-ice-pink transition-colors resize-none font-body"
+              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:border-pistach-500 transition-colors resize-none"
               placeholder="Write your article content here..."
             />
           </div>
@@ -179,9 +183,9 @@ export default function CreateBlogPost() {
               id="published"
               checked={formData.published}
               onChange={handleInputChange}
-              className="w-4 h-4 cursor-pointer"
+              className="w-4 h-4 rounded cursor-pointer bg-slate-700 border-slate-600"
             />
-            <label htmlFor="published" className="text-gray-300 cursor-pointer">
+            <label htmlFor="published" className="text-slate-300 cursor-pointer">
               Publish immediately
             </label>
           </div>
@@ -191,7 +195,7 @@ export default function CreateBlogPost() {
             disabled={loading}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="w-full gradient-primary py-4 rounded-lg text-white font-semibold hover-lift disabled:opacity-50"
+            className="w-full bg-pistach-600 text-white py-3 rounded-lg font-semibold hover:bg-pistach-500 transition-colors disabled:opacity-50"
           >
             {loading ? 'Creating...' : 'Create Article'}
           </motion.button>
