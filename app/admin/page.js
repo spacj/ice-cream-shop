@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { id: 'inquiries', label: 'Inquiries', icon: 'mail' },
   { id: 'applications', label: 'Applications', icon: 'users' },
   { id: 'articles', label: 'Articles', icon: 'file-text' },
+  { id: 'content', label: 'Site Content', icon: 'edit' },
   { id: 'settings', label: 'Settings', icon: 'settings' },
 ];
 
@@ -311,6 +312,143 @@ function ArticlesTab({ articles, handleDelete, handleTogglePublish }) {
   );
 }
 
+function ContentTab({ content, onSave }) {
+  const [formData, setFormData] = useState(content);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  const handleChange = (section, field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [section]: {
+        ...prev[section],
+        [field]: value
+      }
+    }));
+    setSaved(false);
+  };
+
+  const handleSave = async () => {
+    setSaving(true);
+    await onSave(formData);
+    setSaving(false);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 3000);
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h2 className="text-xl font-bold text-slate-100">Editable Site Content</h2>
+          <p className="text-sm text-slate-500">These sections appear on your homepage and affect SEO</p>
+        </div>
+        <div className="flex items-center gap-3">
+          {saved && <span className="text-emerald-400 text-sm flex items-center gap-1"><Icon name="check" className="w-4 h-4" /> Saved!</span>}
+          <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={saving} className="flex items-center gap-2 px-4 py-2 bg-pistach-600 text-white rounded-lg hover:bg-pistach-500 transition-colors disabled:opacity-50">
+            <Icon name="save" className="w-4 h-4" />
+            {saving ? 'Saving...' : 'Save Changes'}
+          </motion.button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Contact Section */}
+        <div className="bg-slate-800/80 border border-slate-700/50 rounded-xl p-6">
+          <h3 className="font-semibold text-slate-100 mb-4 flex items-center gap-2">
+            <Icon name="mail" className="w-5 h-5 text-pistach-400" />
+            Contact Information
+          </h3>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-slate-400 mb-1">Email</label>
+              <input type="email" value={formData.contact?.email || ''} onChange={(e) => handleChange('contact', 'email', e.target.value)} className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2.5 text-slate-200 focus:outline-none focus:border-pistach-500" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-slate-400 mb-1">Phone</label>
+              <input type="tel" value={formData.contact?.phone || ''} onChange={(e) => handleChange('contact', 'phone', e.target.value)} className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2.5 text-slate-200 focus:outline-none focus:border-pistach-500" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-slate-400 mb-1">Address</label>
+              <textarea value={formData.contact?.address || ''} onChange={(e) => handleChange('contact', 'address', e.target.value)} rows={2} className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:border-pistach-500 resize-none" />
+            </div>
+          </div>
+        </div>
+
+        {/* Flavors Section */}
+        <div className="bg-slate-800/80 border border-slate-700/50 rounded-xl p-6">
+          <h3 className="font-semibold text-slate-100 mb-4 flex items-center gap-2">
+            <Icon name="edit" className="w-5 h-5 text-pistach-400" />
+            Flavors Section
+          </h3>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-slate-400 mb-1">Section Title</label>
+              <input type="text" value={formData.flavors?.title || ''} onChange={(e) => handleChange('flavors', 'title', e.target.value)} className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2.5 text-slate-200 text-sm focus:outline-none focus:border-pistach-500" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-slate-400 mb-1">Section Subtitle</label>
+              <input type="text" value={formData.flavors?.subtitle || ''} onChange={(e) => handleChange('flavors', 'subtitle', e.target.value)} className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2.5 text-slate-200 text-sm focus:outline-none focus:border-pistach-500" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-slate-400 mb-1">Description</label>
+              <textarea value={formData.flavors?.description || ''} onChange={(e) => handleChange('flavors', 'description', e.target.value)} rows={3} className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2.5 text-slate-200 text-sm focus:outline-none focus:border-pistach-500 resize-none" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Individual Flavors */}
+      <div className="bg-slate-800/80 border border-slate-700/50 rounded-xl p-6">
+        <h3 className="font-semibold text-slate-100 mb-4 flex items-center gap-2">
+          <Icon name="pluscircle" className="w-5 h-5 text-pistach-400" />
+          Featured Flavors
+        </h3>
+        <p className="text-sm text-slate-500 mb-6">Edit your featured flavors displayed on the homepage</p>
+        
+        <div className="space-y-6">
+          {(formData.flavors?.items || []).map((flavor, idx) => (
+            <div key={idx} className="bg-slate-700/30 rounded-lg p-4 border border-slate-700/50">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm font-medium text-slate-400">Flavor {idx + 1}</span>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-xs text-slate-500 mb-1">Name</label>
+                  <input type="text" value={flavor.name || ''} onChange={(e) => {
+                    const newItems = [...(formData.flavors?.items || [])];
+                    newItems[idx] = { ...newItems[idx], name: e.target.value };
+                    setFormData(prev => ({ ...prev, flavors: { ...prev.flavors, items: newItems } }));
+                    setSaved(false);
+                  }} className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-slate-200 text-sm focus:outline-none focus:border-pistach-500" />
+                </div>
+                <div>
+                  <label className="block text-xs text-slate-500 mb-1">Description</label>
+                  <input type="text" value={flavor.description || ''} onChange={(e) => {
+                    const newItems = [...(formData.flavors?.items || [])];
+                    newItems[idx] = { ...newItems[idx], description: e.target.value };
+                    setFormData(prev => ({ ...prev, flavors: { ...prev.flavors, items: newItems } }));
+                    setSaved(false);
+                  }} className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-slate-200 text-sm focus:outline-none focus:border-pistach-500" />
+                </div>
+                <div>
+                  <label className="block text-xs text-slate-500 mb-1">Image URL</label>
+                  <input type="url" value={flavor.image || ''} onChange={(e) => {
+                    const newItems = [...(formData.flavors?.items || [])];
+                    newItems[idx] = { ...newItems[idx], image: e.target.value };
+                    setFormData(prev => ({ ...prev, flavors: { ...prev.flavors, items: newItems } }));
+                    setSaved(false);
+                  }} className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-slate-200 text-sm focus:outline-none focus:border-pistach-500" />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SettingsTab({ settings, onSave }) {
   const [formData, setFormData] = useState(settings);
   const [saving, setSaving] = useState(false);
@@ -374,6 +512,10 @@ export default function AdminDashboard() {
   const [inquiries, setInquiries] = useState([]);
   const [applications, setApplications] = useState([]);
   const [articles, setArticles] = useState([]);
+  const [content, setContent] = useState({
+    contact: { email: '', phone: '', address: '' },
+    flavors: { title: 'Our Signature Collection', subtitle: 'Handcrafted Flavors', description: 'Explore our premium gelato flavors made from the finest Sicilian pistachio', items: [] },
+  });
   const [settings, setSettings] = useState({
     shopName: 'Pistacchio Utrecht',
     email: 'hello@pistacchio-utrecht.nl',
@@ -403,6 +545,9 @@ export default function AdminDashboard() {
 
         const articlesSnap = await getDocs(collection(db, 'articles'));
         setArticles(articlesSnap.docs.map(d => ({ id: d.id, ...d.data() })));
+
+        const contentDoc = await getDoc(doc(db, 'website', 'content'));
+        if (contentDoc.exists()) { setContent(contentDoc.data()); }
 
         const settingsDoc = await getDoc(doc(db, 'website', 'settings'));
         if (settingsDoc.exists()) { setSettings(settingsDoc.data()); }
@@ -436,13 +581,32 @@ export default function AdminDashboard() {
     } catch (error) { console.error('Error updating status:', error); }
   };
 
-  const handleTogglePublish = async (docId, currentStatus) => {
+    const handleTogglePublish = async (docId, currentStatus) => {
     try {
       const db = await getDb();
       const { doc, updateDoc } = await import('firebase/firestore');
       await updateDoc(doc(db, 'articles', docId), { published: !currentStatus });
       setArticles(articles.map(a => a.id === docId ? { ...a, published: !currentStatus } : a));
     } catch (error) { console.error('Error updating article:', error); }
+  };
+
+  const handleSaveContent = async (newContent) => {
+    try {
+      const db = await getDb();
+      const { doc, setDoc } = await import('firebase/firestore');
+      await setDoc(doc(db, 'website', 'content'), newContent, { merge: true });
+      setContent(newContent);
+      
+      if (typeof window !== 'undefined') {
+        try {
+          await fetch('/api/revalidate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ secret: 'revalidate-content-change', paths: ['/'] }),
+          });
+        } catch (e) { console.log('Revalidation skipped'); }
+      }
+    } catch (error) { console.error('Error saving content:', error); }
   };
 
   const handleSaveSettings = async (newSettings) => {
@@ -512,10 +676,11 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {activeTab === 'inquiries' && <InquiriesTab inquiries={inquiries} handleDelete={handleDelete} handleStatusChange={handleStatusChange} />}
-          {activeTab === 'applications' && <ApplicationsTab applications={applications} handleDelete={handleDelete} handleStatusChange={handleStatusChange} />}
-          {activeTab === 'articles' && <ArticlesTab articles={articles} handleDelete={handleDelete} handleTogglePublish={handleTogglePublish} />}
-          {activeTab === 'settings' && <SettingsTab settings={settings} onSave={handleSaveSettings} />}
+           {activeTab === 'inquiries' && <InquiriesTab inquiries={inquiries} handleDelete={handleDelete} handleStatusChange={handleStatusChange} />}
+           {activeTab === 'applications' && <ApplicationsTab applications={applications} handleDelete={handleDelete} handleStatusChange={handleStatusChange} />}
+           {activeTab === 'articles' && <ArticlesTab articles={articles} handleDelete={handleDelete} handleTogglePublish={handleTogglePublish} />}
+           {activeTab === 'content' && <ContentTab content={content} onSave={handleSaveContent} />}
+           {activeTab === 'settings' && <SettingsTab settings={settings} onSave={handleSaveSettings} />}
         </div>
       </main>
     </div>

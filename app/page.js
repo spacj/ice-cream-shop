@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { FadeInOnScroll } from '@/lib/scroll-animations';
 import { PremiumImage, VideoBackground, ImageGallery, ImageCarousel, VideoPlayer } from '@/lib/media-components';
+import { getDb } from '@/lib/firebase';
 
 // Premium gelato and artisan ice cream images from high-quality sources
 const sampleImages = [
@@ -24,9 +25,37 @@ const carouselImages = [
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [siteContent, setSiteContent] = useState({
+    contact: { email: 'hello@pistacchio-utrecht.nl', phone: '+31 (0)6 1234 5678', address: 'Korte Jansstraat 23\n3512 GN Utrecht, Netherlands' },
+    flavors: { title: 'Our Signature Collection', subtitle: 'Handcrafted Flavors', description: 'Explore our premium gelato flavors made from the finest Sicilian pistachio', items: [] }
+  });
+  const [contentLoading, setContentLoading] = useState(true);
 
   useEffect(() => {
     setIsLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const db = await getDb();
+        if (!db) { setContentLoading(false); return; }
+        const { doc, getDoc } = await import('firebase/firestore');
+        const contentSnap = await getDoc(doc(db, 'website', 'content'));
+        if (contentSnap.exists()) {
+          setSiteContent(prev => ({
+            ...prev,
+            ...contentSnap.data(),
+            contact: { ...prev.contact, ...contentSnap.data().contact },
+            flavors: { ...prev.flavors, ...contentSnap.data().flavors }
+          }));
+        }
+      } catch (error) {
+        console.error('Error fetching content:', error);
+      }
+      setContentLoading(false);
+    };
+    fetchContent();
   }, []);
 
   return (
@@ -99,69 +128,69 @@ export default function Home() {
       {/* ===== FEATURED FLAVORS WITH IMAGES ===== */}
       <section id="flavors" className="py-32 px-4 bg-gradient-to-b from-ivory to-white">
         <div className="max-w-7xl mx-auto">
-          <FadeInOnScroll>
-            <div className="text-center mb-20">
-              <p className="text-pistach-500 text-sm tracking-widest uppercase mb-4 font-semibold">
-                Our Signature Collection
-              </p>
-              <h2 className="text-5xl md:text-6xl font-serif font-bold text-charcoal mb-6">
-                Handcrafted Flavors
-              </h2>
-              <div className="w-20 h-1 bg-caramel mx-auto"></div>
-            </div>
-          </FadeInOnScroll>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {[
-              {
-                id: 'classico',
-                name: 'Pistacchio Classico',
-                description: 'Pure essence of Sicilian pistachio, no additives',
-                image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&h=600&fit=crop&q=85'
-              },
-              {
-                id: 'nocciola',
-                name: 'Pistacchio & Nocciola',
-                description: 'Pistachio blended with premium Italian hazelnut',
-                image: 'https://images.unsplash.com/photo-1583114614970-cd1525b85b88?w=600&h=600&fit=crop&q=85'
-              },
-              {
-                id: 'cioccolato',
-                name: 'Pistacchio & Cioccolato',
-                description: 'Rich pistachio with dark Belgian chocolate',
-                image: 'https://images.unsplash.com/photo-1629866066033-28d6af2d51b6?w=600&h=600&fit=crop&q=85'
-              }
-            ].map((flavor, idx) => (
-              <motion.div
-                key={flavor.id}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <div className="rounded-lg aspect-square overflow-hidden mb-8 shadow-lg group cursor-pointer">
-                  <PremiumImage 
-                    src={flavor.image}
-                    alt={flavor.name}
-                    className="w-full h-full group-hover:scale-110 transition-transform duration-500"
-                  />
-                </div>
-                
-                <h3 className="text-2xl font-serif font-bold text-charcoal mb-3">
-                  {flavor.name}
-                </h3>
-                <p className="text-grey-dark text-lg mb-6">
-                  {flavor.description}
+            <FadeInOnScroll>
+              <div className="text-center mb-20">
+                <p className="text-pistach-500 text-sm tracking-widest uppercase mb-4 font-semibold">
+                  {siteContent.flavors?.title || 'Our Signature Collection'}
                 </p>
-                <button
-                  type="button"
-                  className="text-pistach-600 font-semibold flex items-center gap-2 hover:text-pistach-700 transition-colors"
+                <h2 className="text-5xl md:text-6xl font-serif font-bold text-charcoal mb-6">
+                  {siteContent.flavors?.subtitle || 'Handcrafted Flavors'}
+                </h2>
+                <div className="w-20 h-1 bg-caramel mx-auto"></div>
+              </div>
+            </FadeInOnScroll>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+              {(siteContent.flavors?.items?.length > 0 ? siteContent.flavors.items : [
+                {
+                  id: 'classico',
+                  name: 'Pistacchio Classico',
+                  description: 'Pure essence of Sicilian pistachio, no additives',
+                  image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&h=600&fit=crop&q=85'
+                },
+                {
+                  id: 'nocciola',
+                  name: 'Pistacchio & Nocciola',
+                  description: 'Pistachio blended with premium Italian hazelnut',
+                  image: 'https://images.unsplash.com/photo-1583114614970-cd1525b85b88?w=600&h=600&fit=crop&q=85'
+                },
+                {
+                  id: 'cioccolato',
+                  name: 'Pistacchio & Cioccolato',
+                  description: 'Rich pistachio with dark Belgian chocolate',
+                  image: 'https://images.unsplash.com/photo-1629866066033-28d6af2d51b6?w=600&h=600&fit=crop&q=85'
+                }
+              ]).map((flavor, idx) => (
+                <motion.div
+                  key={flavor.id || idx}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: idx * 0.1 }}
+                  viewport={{ once: true }}
                 >
-                  Discover More →
-                </button>
-              </motion.div>
-            ))}
-          </div>
+                  <div className="rounded-lg aspect-square overflow-hidden mb-8 shadow-lg group cursor-pointer">
+                    <PremiumImage 
+                      src={flavor.image || 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&h=600&fit=crop&q=85'}
+                      alt={flavor.name}
+                      className="w-full h-full group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  
+                  <h3 className="text-2xl font-serif font-bold text-charcoal mb-3">
+                    {flavor.name}
+                  </h3>
+                  <p className="text-grey-dark text-lg mb-6">
+                    {flavor.description}
+                  </p>
+                  <button
+                    type="button"
+                    className="text-pistach-600 font-semibold flex items-center gap-2 hover:text-pistach-700 transition-colors"
+                  >
+                    Discover More →
+                  </button>
+                </motion.div>
+              ))}
+            </div>
         </div>
       </section>
 
@@ -408,41 +437,40 @@ export default function Home() {
               </h2>
               <div className="w-20 h-1 bg-caramel mb-8"></div>
 
-              <div className="space-y-8">
-                <div>
-                  <h3 className="text-sm tracking-widest uppercase text-pistach-500 font-semibold mb-2">
-                    Location
-                  </h3>
-                  <p className="text-lg text-grey-dark">
-                    Korte Jansstraat 23<br/>
-                    3512 GN Utrecht, Netherlands
-                  </p>
-                </div>
+            <div className="space-y-8">
+              <div>
+                <h3 className="text-sm tracking-widest uppercase text-pistach-500 font-semibold mb-2">
+                  Location
+                </h3>
+                <p className="text-lg text-grey-dark whitespace-pre-line">
+                  {siteContent.contact?.address || 'Korte Jansstraat 23<br/>3512 GN Utrecht, Netherlands'}
+                </p>
+              </div>
 
-                <div>
-                  <h3 className="text-sm tracking-widest uppercase text-pistach-500 font-semibold mb-2">
-                    Hours
-                  </h3>
-                  <p className="text-grey-dark">
-                    Mon - Thu: 12:00 - 22:00<br/>
-                    Fri - Sat: 11:00 - 23:00<br/>
-                    Sun: 12:00 - 21:00
-                  </p>
-                </div>
+              <div>
+                <h3 className="text-sm tracking-widest uppercase text-pistach-500 font-semibold mb-2">
+                  Hours
+                </h3>
+                <p className="text-grey-dark">
+                  Mon - Thu: 12:00 - 22:00<br/>
+                  Fri - Sat: 11:00 - 23:00<br/>
+                  Sun: 12:00 - 21:00
+                </p>
+              </div>
 
-                <div>
-                  <h3 className="text-sm tracking-widest uppercase text-pistach-500 font-semibold mb-2">
-                    Contact
-                  </h3>
-                  <p className="text-grey-dark">
-                    <a href="tel:+31612345678" className="hover:text-pistach-500 transition-colors">
-                      +31 (0)6 1234 5678
-                    </a><br/>
-                    <a href="mailto:hello@pistacchio-utrecht.nl" className="hover:text-pistach-500 transition-colors">
-                      hello@pistacchio-utrecht.nl
-                    </a>
-                  </p>
-                </div>
+              <div>
+                <h3 className="text-sm tracking-widest uppercase text-pistach-500 font-semibold mb-2">
+                  Contact
+                </h3>
+                <p className="text-grey-dark">
+                  <a href={`tel:${siteContent.contact?.phone?.replace(/\s/g, '')}`} className="hover:text-pistach-500 transition-colors">
+                    {siteContent.contact?.phone || '+31 (0)6 1234 5678'}
+                  </a><br/>
+                  <a href={`mailto:${siteContent.contact?.email}`} className="hover:text-pistach-500 transition-colors">
+                    {siteContent.contact?.email || 'hello@pistacchio-utrecht.nl'}
+                  </a>
+                </p>
+              </div>
 
                 <motion.a
                   href="https://www.google.com/maps/search/Korte+Jansstraat+23+Utrecht"
