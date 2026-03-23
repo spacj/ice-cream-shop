@@ -18,9 +18,9 @@ const sampleImages = [
 ];
 
 const carouselImages = [
-  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=1200&h=600&fit=crop', alt: 'Pistachio gelato featured' },
+  { src: 'https://images.unsplash.com/photo-1574056090882-6f8d5ee1ee2b?w=1200&h=600&fit=crop', alt: 'Customers enjoying gelato' },
   { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=1200&h=600&fit=crop', alt: 'Artisan gelato creation' },
-  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=1200&h=600&fit=crop', alt: 'Premium ingredients showcase' },
+  { src: 'https://images.unsplash.com/photo-1572268878410-d13dc5b67f20?w=1200&h=600&fit=crop', alt: 'Premium ingredients showcase' },
 ];
 
 export default function Home() {
