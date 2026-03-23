@@ -2,38 +2,28 @@
 
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuthStore } from '@/lib/store';
-import Logo from '@/components/Logo';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [initError, setInitError] = useState('');
   const router = useRouter();
-  const { login, initializeAuth, user, isAdmin, loading: authLoading, error: authError } = useAuthStore();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get('redirect') || '/admin';
+  const { login, initializeAuth, user, isAdmin, loading: authLoading } = useAuthStore();
 
   useEffect(() => {
-    console.log('[LoginPage] Mounted, initializing auth...');
-    initializeAuth().catch(err => {
-      console.error('Auth init error:', err);
-      setInitError('Failed to initialize authentication. Please refresh the page.');
-    });
+    initializeAuth();
   }, [initializeAuth]);
 
   useEffect(() => {
-    if (authError) {
-      setInitError(authError);
-    }
-  }, [authError]);
-
-  useEffect(() => {
     if (!authLoading && user && isAdmin) {
-      router.push('/admin');
+      router.push(redirect);
     }
-  }, [user, isAdmin, authLoading, router]);
+  }, [user, isAdmin, authLoading, router, redirect]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,7 +32,7 @@ export default function AdminLogin() {
 
     try {
       await login(email, password);
-      router.push('/admin');
+      router.push(redirect);
     } catch (err) {
       setError(err.message || 'Invalid credentials. Please try again.');
     } finally {
@@ -51,45 +41,22 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center pt-20 pb-20 px-4">
-      {/* Background animation */}
-      <div className="absolute inset-0 overflow-hidden -z-10">
-        <motion.div
-          className="absolute top-20 right-20 w-72 h-72 bg-ice-pink rounded-full mix-blend-multiply filter blur-3xl opacity-20"
-          animate={{ y: [0, 100, 0] }}
-          transition={{ duration: 8, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute bottom-20 left-20 w-72 h-72 bg-ice-blue rounded-full mix-blend-multiply filter blur-3xl opacity-20"
-          animate={{ y: [0, -100, 0] }}
-          transition={{ duration: 10, repeat: Infinity }}
-        />
-      </div>
-
-      {/* Login Card */}
+    <div className="min-h-screen bg-slate-900 flex items-center justify-center px-4">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="w-full max-w-md glass rounded-3xl p-8 md:p-12"
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-md bg-slate-800/80 border border-slate-700/50 rounded-xl p-8"
       >
-        {/* Logo */}
-        <motion.div
-          className="flex justify-center mb-8"
-          whileHover={{ scale: 1.1 }}
-        >
-          <Logo size={80} />
-        </motion.div>
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-bold text-slate-100 mb-2">
+            Admin Access
+          </h1>
+          <p className="text-slate-400">
+            Manage your Pistacchio dashboard
+          </p>
+        </div>
 
-        {/* Title */}
-        <h1 className="font-display text-3xl text-gradient mb-2 text-center">
-          Admin Access
-        </h1>
-        <p className="text-gray-400 text-center mb-8">
-          Manage your Gelato Luxe dashboard
-        </p>
-
-        {/* Error Message */}
         {error && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
@@ -100,15 +67,9 @@ export default function AdminLogin() {
           </motion.div>
         )}
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Email */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.1 }}
-          >
-            <label className="block text-sm font-semibold mb-2 text-gray-300">
+          <div>
+            <label className="block text-sm font-medium text-slate-400 mb-2">
               Email Address
             </label>
             <input
@@ -116,18 +77,13 @@ export default function AdminLogin() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full bg-dark/50 border border-ice-pink/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-ice-pink transition-colors"
-              placeholder="admin@gelatoluxe.com"
+              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:border-pistach-500 transition-colors"
+              placeholder="admin@pistacchio.nl"
             />
-          </motion.div>
+          </div>
 
-          {/* Password */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            <label className="block text-sm font-semibold mb-2 text-gray-300">
+          <div>
+            <label className="block text-sm font-medium text-slate-400 mb-2">
               Password
             </label>
             <input
@@ -135,38 +91,25 @@ export default function AdminLogin() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full bg-dark/50 border border-ice-pink/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-ice-pink transition-colors"
+              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:border-pistach-500 transition-colors"
               placeholder="••••••••"
             />
-          </motion.div>
+          </div>
 
-          {/* Submit Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
+          <motion.button
+            type="submit"
+            disabled={loading}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="w-full bg-pistach-600 py-3 rounded-lg text-white font-semibold hover:bg-pistach-500 transition-colors disabled:opacity-50"
           >
-            <motion.button
-              type="submit"
-              disabled={loading}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full gradient-primary py-3 rounded-lg text-white font-semibold hover-lift disabled:opacity-50"
-            >
-              {loading ? 'Logging in...' : 'Login'}
-            </motion.button>
-          </motion.div>
+            {loading ? 'Logging in...' : 'Login'}
+          </motion.button>
         </form>
 
-        {/* Info */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="text-gray-500 text-center text-sm mt-8"
-        >
+        <p className="text-slate-500 text-center text-sm mt-8">
           Admin credentials required. Contact your administrator for access.
-        </motion.p>
+        </p>
       </motion.div>
     </div>
   );
