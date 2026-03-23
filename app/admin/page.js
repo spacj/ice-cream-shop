@@ -73,9 +73,8 @@ function Sidebar({ activeTab, setActiveTab, user, onLogout }) {
     <aside className="w-64 min-h-screen bg-slate-900 border-r border-slate-700/50 flex flex-col fixed left-0 top-0 z-50">
       <div className="p-6 border-b border-slate-700/50">
         <div className="flex items-center gap-3">
-          <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain" />
-          <div>
-            <h1 className="font-bold text-white">Pistacchio</h1>
+          <div className="space-y-1">
+            <p className="text-xs font-bold text-white">PISTACCHIO</p>
             <p className="text-xs text-slate-500">Admin Panel</p>
           </div>
         </div>
