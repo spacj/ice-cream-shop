@@ -804,7 +804,7 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-slate-900">
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} user={user} onLogout={handleLogout} />
       
-      <main className="ml-64 pt-20 px-8 pb-8">
+      <main className="ml-64 pt-32 px-8 pb-8">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
