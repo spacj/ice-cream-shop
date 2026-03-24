@@ -493,7 +493,7 @@ function ContentTab({ content, onSave }) {
                 <label className="block text-sm font-medium text-slate-400 mb-1">Allergens Description</label>
                 <textarea 
                   value={formData.allergens || ''} 
-                  onChange={(e) => handleChange('allergens', '', e.target.value)} 
+                  onChange={(e) => handleChange('allergens', null, e.target.value)} 
                   rows={4} 
                   className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:border-pistach-500 resize-none"
                   placeholder="List any allergens present (e.g., contains milk, nuts, gluten)..."
