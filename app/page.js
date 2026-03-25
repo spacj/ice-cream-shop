@@ -68,6 +68,7 @@ export default function Home() {
         <div className="absolute inset-0 w-full h-full">
            <VideoBackground 
               src="/videos/videogelato.mp4"
+              poster="/images/home/shopfront.png"
               className="w-full h-full"
             />
           {/* Gradient overlay */}
@@ -199,17 +200,17 @@ export default function Home() {
       <section className="py-32 px-4 bg-pistach-50">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Left - Video */}
+            {/* Left - Image */}
             <motion.div
               initial={{ opacity: 0, x: -60 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="order-2 lg:order-1"
+              className="order-2 lg:order-1 rounded-lg overflow-hidden shadow-xl"
             >
-              <VideoPlayer
-                src="/videos/videogelato.mp4"
-                poster="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=600&fit=crop&q=85"
-                title="Our Gelato Making Process"
+              <img
+                src="/images/home/shopfront.png"
+                alt="Our gelato making process"
+                className="w-full h-full object-cover"
               />
             </motion.div>
 
