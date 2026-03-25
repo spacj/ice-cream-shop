@@ -68,7 +68,7 @@ export default function Home() {
         <div className="absolute inset-0 w-full h-full">
            <VideoBackground 
              src="/videos/hero-gelato.mp4"
-             poster="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=1600&h=1200&fit=crop&q=80"
+             poster="images/home/shopfront.png"
              className="w-full h-full"
            />
           {/* Gradient overlay */}
