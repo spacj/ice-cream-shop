@@ -9,12 +9,12 @@ import { getDb } from '@/lib/firebase';
 
 // Premium gelato and artisan ice cream images from high-quality sources
 const sampleImages = [
-  { src: '/images/products/pistacchio.jpg', alt: 'Pistachio gelato scoop', caption: 'Pistacchio Classico' },
-  { src: '/images/products/nocciola.jpg', alt: 'Gelato display case', caption: 'Pistacchio & Nocciola' },
-  { src: '/images/products/pistacchio.jpg', alt: 'Creamy pistachio texture', caption: 'Premium gelato' },
-  { src: '/images/products/nocciola.jpg', alt: 'Array of gelato flavors', caption: 'Signature flavors' },
-  { src: '/images/home/moment1.jpg', alt: 'Shop interior', caption: 'Shop interior' },
-  { src: '/images/home/moment2.jpg', alt: 'Handcrafted gelato', caption: 'Handcrafted' },
+  { src: '/images/home/moment1.jpg', alt: 'Shop interior', caption: 'Shop Interior' },
+  { src: '/images/home/moment2.jpg', alt: 'Artisan gelato', caption: 'Handcrafted' },
+  { src: '/images/home/moment3.jpg', alt: 'Customers enjoying gelato', caption: 'Our Guests' },
+  { src: '/images/home/moment4.jpg', alt: 'Premium gelato display', caption: 'Fresh Daily' },
+  { src: '/images/home/shopfooter.jpg', alt: 'Shop exterior', caption: 'Visit Us' },
+  { src: '/images/home/shopfront.png', alt: 'Pistacchio sign', caption: 'Welcome' },
 ];
 
 const carouselImages = [
