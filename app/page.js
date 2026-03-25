@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { FadeInOnScroll } from '@/lib/scroll-animations';
-import { PremiumImage, VideoBackground, ImageGallery, ImageCarousel, VideoPlayer } from '@/lib/media-components';
+import { PremiumImage, ImageGallery, ImageCarousel } from '@/lib/media-components';
 import { getDb } from '@/lib/firebase';
 
 // Premium gelato and artisan ice cream images from high-quality sources
