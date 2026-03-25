@@ -178,6 +178,7 @@ video {
 @media (max-width: 768px) {
   body {
     font-size: 14px;
+    -webkit-text-size-adjust: 100%;
   }
   
   h1 {
@@ -187,4 +188,28 @@ video {
   h2 {
     font-size: 1.75rem;
   }
+}
+
+/* Mobile touch improvements - prevent unwanted text selection and tap issues */
+button, a, input, textarea, select, [role="button"] {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Allow text selection in inputs and textareas */
+input, textarea, select, [contenteditable="true"] {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+/* Prevent double-tap zoom on buttons */
+button, .btn, a.btn {
+  touch-action: manipulation;
+}
+
+/* Smooth touch interactions */
+* {
+  -webkit-tap-highlight-color: transparent;
 }

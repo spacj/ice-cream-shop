@@ -68,9 +68,8 @@ export default function Home() {
         <div className="absolute inset-0 w-full h-full">
            <VideoBackground 
               src="/videos/videogelato.mp4"
-              poster="images/home/shopfront.png"
-             className="w-full h-full"
-           />
+              className="w-full h-full"
+            />
           {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-r from-cream/80 to-cream/20"></div>
         </div>
@@ -170,11 +169,11 @@ export default function Home() {
                   transition={{ duration: 0.6, delay: idx * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <div className="rounded-lg aspect-square overflow-hidden mb-8 shadow-lg group cursor-pointer">
+                  <div className="rounded-lg aspect-square overflow-hidden mb-8 shadow-lg">
                     <PremiumImage 
-                      src={flavor.image || 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&h=600&fit=crop&q=85'}
+                      src={flavor.image || 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&h=600&fit=crop?q=85'}
                       alt={flavor.name}
-                      className="w-full h-full group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-full"
                     />
                   </div>
                   
@@ -502,10 +501,10 @@ export default function Home() {
               viewport={{ once: true }}
               className="rounded-lg overflow-hidden shadow-xl"
             >
-              <PremiumImage
+              <img
                 src="images/home/shopfooter.jpg"
                 alt="Pistacchio Utrecht shop interior"
-                className="w-full aspect-square"
+                className="w-full h-full object-cover"
               />
             </motion.div>
           </div>
