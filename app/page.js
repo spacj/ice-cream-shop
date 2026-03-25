@@ -208,7 +208,7 @@ export default function Home() {
               className="order-2 lg:order-1"
             >
               <VideoPlayer
-                src="/videos/gelato-making.mp4"
+                src="/videos/videogelato.mp4"
                 poster="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=600&fit=crop&q=85"
                 title="Our Gelato Making Process"
               />
