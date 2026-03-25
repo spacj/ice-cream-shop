@@ -9,18 +9,19 @@ import { getDb } from '@/lib/firebase';
 
 // Premium gelato and artisan ice cream images from high-quality sources
 const sampleImages = [
-  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=800&fit=crop', alt: 'Pistachio gelato scoop', caption: 'Pistacchio Classico' },
-  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=800&fit=crop', alt: 'Gelato display case', caption: 'Our gelato bar' },
-  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=800&fit=crop', alt: 'Creamy pistachio texture', caption: 'Premium gelato' },
-  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=800&fit=crop', alt: 'Array of gelato flavors', caption: 'Signature flavors' },
-  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=800&fit=crop', alt: 'Modern shop ambiance', caption: 'Shop interior' },
-  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=800&fit=crop', alt: 'Handcrafted gelato preparation', caption: 'Handcrafted' },
+  { src: '/images/products/pistacchio.jpg', alt: 'Pistachio gelato scoop', caption: 'Pistacchio Classico' },
+  { src: '/images/products/nocciola.jpg', alt: 'Gelato display case', caption: 'Pistacchio & Nocciola' },
+  { src: '/images/products/pistacchio.jpg', alt: 'Creamy pistachio texture', caption: 'Premium gelato' },
+  { src: '/images/products/nocciola.jpg', alt: 'Array of gelato flavors', caption: 'Signature flavors' },
+  { src: '/images/home/moment1.jpg', alt: 'Shop interior', caption: 'Shop interior' },
+  { src: '/images/home/moment2.jpg', alt: 'Handcrafted gelato', caption: 'Handcrafted' },
 ];
 
 const carouselImages = [
-  { src: 'https://images.unsplash.com/photo-1574056090882-6f8d5ee1ee2b?w=1200&h=600&fit=crop', alt: 'Customers enjoying gelato' },
-  { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=1200&h=600&fit=crop', alt: 'Artisan gelato creation' },
-  { src: 'https://images.unsplash.com/photo-1572268878410-d13dc5b67f20?w=1200&h=600&fit=crop', alt: 'Premium ingredients showcase' },
+  { src: '/images/home/moment1.jpg', alt: 'Customers enjoying gelato' },
+  { src: '/images/home/moment2.jpg', alt: 'Artisan gelato creation' },
+  { src: '/images/home/moment3.jpg', alt: 'Premium ingredients showcase' },
+  { src: '/images/home/moment4.jpg', alt: 'Gelato flavors display' },
 ];
 
 export default function Home() {
@@ -144,22 +145,22 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
               {(siteContent.flavors?.items?.length > 0 ? siteContent.flavors.items : [
                 {
-                  id: 'classico',
+                  id: 'pistacchio',
                   name: 'Pistacchio Classico',
                   description: 'Pure essence of Sicilian pistachio, no additives',
-                  image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&h=600&fit=crop&q=85'
+                  image: '/images/products/pistacchio.jpg'
                 },
                 {
                   id: 'nocciola',
                   name: 'Pistacchio & Nocciola',
                   description: 'Pistachio blended with premium Italian hazelnut',
-                  image: 'https://images.unsplash.com/photo-1583114614970-cd1525b85b88?w=600&h=600&fit=crop&q=85'
+                  image: '/images/products/nocciola.jpg'
                 },
                 {
-                  id: 'cioccolato',
-                  name: 'Pistacchio & Cioccolato',
-                  description: 'Rich pistachio with dark Belgian chocolate',
-                  image: 'https://images.unsplash.com/photo-1629866066033-28d6af2d51b6?w=600&h=600&fit=crop&q=85'
+                  id: 'frutta',
+                  name: 'Frutta di Seasonal',
+                  description: 'Fresh seasonal fruits blended with creamy gelato',
+                  image: '/images/products/frutta.jpg'
                 }
               ]).map((flavor, idx) => (
                 <motion.div
@@ -171,7 +172,7 @@ export default function Home() {
                 >
                   <div className="rounded-lg aspect-square overflow-hidden mb-8 shadow-lg">
                     <PremiumImage 
-                      src={flavor.image || 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&h=600&fit=crop?q=85'}
+                      src={flavor.image || '/images/products/pistacchio.jpg'}
                       alt={flavor.name}
                       className="w-full h-full"
                     />
@@ -509,7 +510,7 @@ export default function Home() {
               className="rounded-lg overflow-hidden shadow-xl"
             >
               <img
-                src="images/home/shopfooter.jpg"
+                src="/images/home/shopfooter.jpg"
                 alt="Pistacchio Utrecht shop interior"
                 className="w-full h-full object-cover"
               />
