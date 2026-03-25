@@ -62,16 +62,15 @@ export default function Home() {
 
   return (
     <div className="overflow-hidden bg-cream">
-      {/* ===== HERO WITH VIDEO BACKGROUND ===== */}
+      {/* ===== HERO WITH IMAGE ===== */}
       <section className="relative w-full min-h-screen flex items-stretch">
-        {/* Video Background */}
+        {/* Image Background */}
         <div className="absolute inset-0 w-full h-full">
-           <VideoBackground 
-              src="/videos/videogelato.mp4"
-              poster="/images/home/shopfront.png"
-              className="w-full h-full"
-            />
-          {/* Gradient overlay */}
+          <img
+            src="/images/home/shopfront.png"
+            alt="Pistacchio Gelato Shop"
+            className="w-full h-full object-cover"
+          />
           <div className="absolute inset-0 bg-gradient-to-r from-cream/80 to-cream/20"></div>
         </div>
 
@@ -200,18 +199,25 @@ export default function Home() {
       <section className="py-32 px-4 bg-pistach-50">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Left - Image */}
+            {/* Left - Video */}
             <motion.div
               initial={{ opacity: 0, x: -60 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               className="order-2 lg:order-1 rounded-lg overflow-hidden shadow-xl"
             >
-              <img
-                src="/images/home/shopfront.png"
-                alt="Our gelato making process"
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                poster="/images/home/shopfront.png"
                 className="w-full h-full object-cover"
-              />
+              >
+                <source src="/videos/videogelato.mp4" type="video/mp4" />
+                <source src="/videos/videogelato.webm" type="video/webm" />
+                Your browser does not support the video tag.
+              </video>
             </motion.div>
 
             {/* Right - Text */}
