@@ -67,8 +67,8 @@ export default function Home() {
         {/* Video Background */}
         <div className="absolute inset-0 w-full h-full">
            <VideoBackground 
-             src="/videos/hero-gelato.mp4"
-             poster="images/home/shopfront.png"
+              src="/videos/videogelato.mp4"
+              poster="images/home/shopfront.png"
              className="w-full h-full"
            />
           {/* Gradient overlay */}
