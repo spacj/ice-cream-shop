@@ -234,14 +234,14 @@ export default function Home() {
               </p>
               
               <p className="text-grey-dark text-lg mb-8 leading-relaxed">
-                Our gelato is handcrafted daily in small batches, using traditional Italian techniques combined with modern quality standards. We never use artificial colors, flavors, or stabilizers.
+                Our gelato is handcrafted daily in small batches, using traditional Italian techniques combined with modern quality standards. We only use the best products and resources on the market.
               </p>
 
               <ul className="space-y-4">
                 {[
                   'Sicilian Pistachio Sourced Directly',
                   'Small Batch Handcrafted Daily',
-                  'No Artificial Additives',
+                  'Milk from Farms around Utrecht',
                   'Traditional Italian Techniques'
                 ].map((item) => (
                   <motion.li
@@ -503,7 +503,7 @@ export default function Home() {
               className="rounded-lg overflow-hidden shadow-xl"
             >
               <PremiumImage
-                src="https://images.unsplash.com/photo-1567521464027-f127ff144326?w=800&h=800&fit=crop&q=85"
+                src="images/home/shopfooter.jpg"
                 alt="Pistacchio Utrecht shop interior"
                 className="w-full aspect-square"
               />
